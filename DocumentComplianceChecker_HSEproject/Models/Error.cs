@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DocumentComplianceChecker_HSEproject.Models
+﻿namespace DocumentComplianceChecker_HSEproject.Models
 {
-    internal class Error
+    public class FormattingError
     {
+        public string ErrorType { get; set; }
+        public string Message { get; set; }
+        public string Location { get; set; } = "Unknown";
     }
 }
