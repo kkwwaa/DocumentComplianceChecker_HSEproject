@@ -21,22 +21,37 @@ namespace DocumentComplianceChecker_HSEproject.Services
 
             for (int i = 0; i < paragraphs.Count; i++)
             {
-                foreach (var rule in _rules)
+                var paragraph = paragraphs[i];
+                var runs = paragraph.Elements<Run>().ToList();
+
+                // Проверяем каждый Run в параграфе
+                foreach (var run in runs)
                 {
-                    if (!rule.Validate(paragraphs[i]))
+                    foreach (var rule in _rules)
                     {
-                        result.Errors.Add(new Error
+                        if (!rule.Validate(paragraph, run)) // Теперь передаем конкретный Run
                         {
-                            ErrorType = rule.GetType().Name,
-                            Message = rule.ErrorMessage,
-                            ParagraphText = paragraphs[i].InnerText,
-                            ParagraphIndex = i
-                        });
+                            Console.WriteLine(GetRunText(run));
+
+                            result.Errors.Add(new Error
+                            {
+                                ErrorType = rule.GetType().Name,
+                                Message = rule.ErrorMessage,
+                                ParagraphText = GetRunText(run),
+                                ParagraphIndex = i,
+                                TargetRun = run // Сохраняем ссылку на проблемный Run
+                            });
+                        }
                     }
                 }
             }
 
             return result;
+        }
+
+        private string GetRunText(Run run)
+        {
+            return string.Concat(run.Elements<Text>().Select(t => t.Text));
         }
     }
 }
