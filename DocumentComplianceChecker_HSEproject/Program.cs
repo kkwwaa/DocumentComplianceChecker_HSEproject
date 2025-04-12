@@ -1,12 +1,11 @@
 ﻿using DocumentComplianceChecker_HSEproject.Interfaces;
-using DocumentComplianceChecker_HSEproject.Services;
 using DocumentComplianceChecker_HSEproject;
 using Microsoft.Extensions.DependencyInjection;
 
 // Группировка регистраций
 static void ConfigureServices(IServiceCollection services)
 {// Настройка DI    
-    services.AddSingleton<IFileManager, FileManager>();
+    services.AddSingleton<IFileManager, FileManager>();// "Когда кто-то попросит IFileManager, верни FileManager"
     services.AddTransient<IDocumentLoader, DocumentLoader>();
     services.AddTransient<IExporter, Exporter>();
     services.AddTransient<IFormattingValidator, FormattingValidator>();    
@@ -19,7 +18,9 @@ var provider = services.BuildServiceProvider();
 // Пример использования
 try
 {
-    var fileManager = provider.GetRequiredService<IFileManager>();
+    // DI делает это за вас:
+    var fileManager = provider.GetRequiredService<IFileManager>();// Грамотное создание
+    // (возвращает FileManager, но вы работаете только с интерфейсом)  
     var docLoader = provider.GetRequiredService<IDocumentLoader>();
     var exporter = provider.GetRequiredService<IExporter>();
     var validator = provider.GetRequiredService<IFormattingValidator>();
@@ -35,7 +36,7 @@ try
     }
 
     // Основной workflow
-    using var doc = docLoader.LoadDocument(inputPath);
+    using var doc = docLoader.LoadDocument(inputPath); // Грамотное использование с автом-им Dispose
     var errors = validator.Validate(doc);
 
     // Генерируем простой отчет
