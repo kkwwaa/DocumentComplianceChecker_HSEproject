@@ -1,6 +1,7 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentComplianceChecker_HSEproject.Models;
+using System.Globalization;
 
 namespace DocumentComplianceChecker_HSEproject.Services
 {
@@ -8,35 +9,44 @@ namespace DocumentComplianceChecker_HSEproject.Services
     {
         public void ApplyAnnotations(WordprocessingDocument doc, List<Error> errors)
         {
-            if (errors.Count == 0) return;
+            if (errors.Count == 0) return; // Если ошибок нет, выходим
 
-            var body = doc.MainDocumentPart.Document.Body;
+            var body = doc.MainDocumentPart.Document.Body; // Получаем тело документа
 
-            foreach (var error in errors)
+            foreach (var error in errors) // Перебираем все ошибки
             {
-                // Находим параграф с ошибкой (упрощённо — по тексту)
+                // Ищем параграф, содержащий текст с ошибкой
+                // (необходима другая модель ошибки, чтобы искать не по тексту, а более точно)
                 var targetParagraph = body
                     .Descendants<Paragraph>()
                     .FirstOrDefault(p => p.InnerText.Contains(error.ParagraphText));
 
-                if (targetParagraph != null)
+                if (targetParagraph != null) // Если нашли параграф
                 {
-                    HighlightText(targetParagraph, error.ParagraphText);
-                    AddComment(doc, targetParagraph, error.Message);
+                    HighlightText(targetParagraph, error.ParagraphText); // Подсвечиваем текст
+                    AddComment(doc, targetParagraph, error.Message); // Добавляем комментарий
                 }
             }
         }
 
-        private void HighlightText(Paragraph paragraph, string text)
+        private void HighlightText(Paragraph paragraph, string errorText)
         {
-            var run = new Run(
-                new RunProperties(
-                    new Highlight { Val = HighlightColorValues.Red } // Красное выделение
-                ),
-                new Text(text)
-            );
+            // Находим все Run элементы в параграфе, содержащие текст с ошибкой
+            var runsWithError = paragraph.Descendants<Run>()
+                                        .Where(r => r.InnerText.Contains(errorText))
+                                        .ToList();
 
-            paragraph.AppendChild(run);
+            foreach (var run in runsWithError)
+            {
+                // Получаем или создаем свойства форматирования (RunProperties)
+                var runProperties = run.RunProperties ?? new RunProperties();
+
+                // Добавляем красное выделение
+                runProperties.Highlight = new Highlight() { Val = HighlightColorValues.Red };
+
+                // Обновляем свойства Run
+                run.RunProperties = runProperties;
+            }
         }
 
         private void AddComment(WordprocessingDocument doc, Paragraph paragraph, string commentText)

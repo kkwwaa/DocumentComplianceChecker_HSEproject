@@ -16,18 +16,19 @@ namespace DocumentComplianceChecker_HSEproject.Services
             // Запоминаем помощника для работы с файлами
             _fileManager = fileManager;
         }
-
-        // Открываем документ Word
-        public WordprocessingDocument LoadDocument(string path)
+       
+        // Копируем файл
+        public WordprocessingDocument CreateDocumentCopy(string inputPath, string outputPath)
         {
             // Проверяем через помощника - это действительно Word-файл?
-            if (!_fileManager.IsWordDocument(path))
+            if (!_fileManager.IsWordDocument(inputPath))
                 throw new ArgumentException("File is not a Word document (.docx)");
 
-            // Открываем документ для редактирования (true = можно изменять)
-            _currentDocument = WordprocessingDocument.Open(path, true);
-            // Возвращаем открытый документ
-            return _currentDocument;
+            // Копируем файл
+            File.Copy(inputPath, outputPath, overwrite: true);
+
+            // Открываем копию с возможностью редактирования
+            return WordprocessingDocument.Open(outputPath, true);
         }
 
         // Сохраняем изменения в документе

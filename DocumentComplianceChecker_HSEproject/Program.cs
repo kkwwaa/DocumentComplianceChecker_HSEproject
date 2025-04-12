@@ -40,7 +40,7 @@ try
     }
 
     // Основной workflow
-    using var doc = docLoader.LoadDocument("input.docx");
+    using var doc = docLoader.CreateDocumentCopy(inputPath, outputPath);
 
     // Проверка форматирования
     var errors = validator.Validate(doc);
@@ -49,7 +49,6 @@ try
     annotator.ApplyAnnotations(doc, errors);
 
     // Сохраняем результаты
-    exporter.ExportAnnotatedDocument(doc, outputPath);  // Сохраняем исправленный документ
     exporter.ExportReport(errors, reportPath);   // Сохраняем отчёт
 
     Console.WriteLine($"Проверка завершена. Результаты сохранены в:\n{outputPath}\n{reportPath}");
