@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
+using DocumentComplianceChecker_HSEproject.Models;
 
 namespace DocumentComplianceChecker_HSEproject.Interfaces
 {
@@ -8,7 +9,7 @@ namespace DocumentComplianceChecker_HSEproject.Interfaces
         void ExportAnnotatedDocument(WordprocessingDocument doc, string outputPath);
 
         // сохраняет текстовый отчет (текст -> файл отчёта)
-        void ExportReport(string reportContent, string outputPath);
+        void ExportReport(List<Error> errors, string outputPath);
 
     }
 }

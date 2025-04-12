@@ -1,9 +1,10 @@
 ﻿namespace DocumentComplianceChecker_HSEproject.Models
 {
-    public class FormattingError
+    // Models/Error.cs
+    public class Error
     {
         public string ErrorType { get; set; }
         public string Message { get; set; }
-        public string Location { get; set; } = "Unknown";
+        public string ParagraphText { get; set; } // Текст абзаца для аннотации
     }
 }

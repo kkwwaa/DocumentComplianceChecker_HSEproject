@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DocumentComplianceChecker_HSEproject
+namespace DocumentComplianceChecker_HSEproject.Services
 {
     internal class ErrorReporter
     {

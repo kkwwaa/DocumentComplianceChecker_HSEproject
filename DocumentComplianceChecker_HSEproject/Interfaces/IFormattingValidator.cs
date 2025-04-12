@@ -5,6 +5,6 @@ namespace DocumentComplianceChecker_HSEproject.Interfaces
 {
     public interface IFormattingValidator
     {
-        List<FormattingError> Validate(WordprocessingDocument doc);
+        List<Error> Validate(WordprocessingDocument doc);
     }
 }

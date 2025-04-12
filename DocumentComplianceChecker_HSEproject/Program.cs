@@ -1,5 +1,5 @@
 ﻿using DocumentComplianceChecker_HSEproject.Interfaces;
-using DocumentComplianceChecker_HSEproject;
+using DocumentComplianceChecker_HSEproject.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 // Группировка регистраций
@@ -26,6 +26,7 @@ try
     var docLoader = provider.GetRequiredService<IDocumentLoader>();
     var exporter = provider.GetRequiredService<IExporter>();
     var validator = provider.GetRequiredService<IFormattingValidator>();
+    var annotator = new AnnotationGenerator();
 
     string inputPath = "input.docx";
     string outputPath = "output.docx";
@@ -39,16 +40,17 @@ try
     }
 
     // Основной workflow
-    using var doc = docLoader.LoadDocument(inputPath); // Грамотное использование с автом-им Dispose
-    var errors = validator.Validate(doc); // Проверяем форматирование, возвращает список ошибок.
+    using var doc = docLoader.LoadDocument("input.docx");
 
-    // Генерируем простой отчет
-    string reportContent = $"Найдено ошибок: {errors.Count}\n" +
-                          string.Join("\n", errors.Select(e => $"- {e.ErrorType}: {e.Message}"));
+    // Проверка форматирования
+    var errors = validator.Validate(doc);
+
+    // Аннотирование ошибок
+    annotator.ApplyAnnotations(doc, errors);
 
     // Сохраняем результаты
     exporter.ExportAnnotatedDocument(doc, outputPath);  // Сохраняем исправленный документ
-    exporter.ExportReport(reportContent, reportPath);   // Сохраняем отчёт
+    exporter.ExportReport(errors, reportPath);   // Сохраняем отчёт
 
     Console.WriteLine($"Проверка завершена. Результаты сохранены в:\n{outputPath}\n{reportPath}");
 }

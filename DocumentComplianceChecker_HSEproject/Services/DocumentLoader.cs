@@ -1,7 +1,7 @@
 ﻿using DocumentComplianceChecker_HSEproject.Interfaces;
 using DocumentFormat.OpenXml.Packaging;
 
-namespace DocumentComplianceChecker_HSEproject
+namespace DocumentComplianceChecker_HSEproject.Services
 {
     public class DocumentLoader : IDocumentLoader
     {

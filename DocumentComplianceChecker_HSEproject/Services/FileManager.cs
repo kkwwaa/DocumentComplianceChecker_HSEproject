@@ -1,6 +1,6 @@
 ﻿using DocumentComplianceChecker_HSEproject.Interfaces;
 
-namespace DocumentComplianceChecker_HSEproject
+namespace DocumentComplianceChecker_HSEproject.Services
 {
     public class FileManager : IFileManager
     {
