@@ -1,4 +1,6 @@
 ﻿using DocumentComplianceChecker_HSEproject.Interfaces;
+using DocumentComplianceChecker_HSEproject.Models;
+using DocumentComplianceChecker_HSEproject.Rules;
 using DocumentComplianceChecker_HSEproject.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,11 +12,19 @@ static void ConfigureServices(IServiceCollection services)
     services.AddSingleton<IFileManager, FileManager>();// "Когда кто-то попросит IFileManager, верни FileManager"
     services.AddTransient<IDocumentLoader, DocumentLoader>();
     services.AddTransient<IExporter, Exporter>();
-    services.AddTransient<IFormattingValidator, FormattingValidator>();    
+    services.AddTransient<IFormattingValidator, FormattingValidator>();
+    services.AddTransient<AnnotationGenerator>();
 }
+
+var rules = new List<ValidationRule>
+{
+    new FontRule { RequiredFont = "Times New Roman", ErrorMessage = "Неверный шрифт" },
+    new FontSizeRule { MinSize = 11, MaxSize = 13, ErrorMessage = "Неверный размер" }
+};
 
 var services = new ServiceCollection(); // Создаём коллекцию сервисов
 ConfigureServices(services); // Регистрируем зависимости
+services.AddSingleton(rules); // Регистрируем правила
 var provider = services.BuildServiceProvider(); // "Собираем" контейнер
 
 // Пример использования

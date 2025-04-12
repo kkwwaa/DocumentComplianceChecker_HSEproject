@@ -9,7 +9,7 @@ namespace DocumentComplianceChecker_HSEproject.Interfaces
         void ExportAnnotatedDocument(WordprocessingDocument doc, string outputPath);
 
         // сохраняет текстовый отчет (текст -> файл отчёта)
-        void ExportReport(List<Error> errors, string outputPath);
+        void ExportReport(ValidationResult errors, string outputPath);
 
     }
 }

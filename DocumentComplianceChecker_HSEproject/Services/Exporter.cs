@@ -57,11 +57,22 @@ namespace DocumentComplianceChecker_HSEproject.Services
         }
 
         // Сохранение отчёта
-        public void ExportReport(List<Error> errors, string reportPath)
+        public void ExportReport(ValidationResult validationResult, string reportPath)
         {
-            var reportContent = $"Найдено ошибок: {errors.Count}\n" +
-                              string.Join("\n", errors.Select(e => $"- {e.ErrorType}: {e.Message}"));
+            // Проверка на null
+            if (validationResult == null || validationResult.Errors == null)
+            {
+                File.WriteAllText(reportPath, "Ошибки не найдены (null)");
+                return;
+            }
 
+            // Формируем содержимое отчета
+            var reportContent = $"Найдено ошибок: {validationResult.Errors.Count}\n" +
+                              string.Join("\n", validationResult.Errors.Select(e =>
+                                  $"- [{e.ErrorType}] {e.Message}\n" +
+                                  $"  Текст: {e.ParagraphText?.Trim() ?? "не указан"}"));
+
+            // Записываем в файл
             File.WriteAllText(reportPath, reportContent);
         }
     }

@@ -7,43 +7,36 @@ namespace DocumentComplianceChecker_HSEproject.Services
 {
     public class FormattingValidator : IFormattingValidator
     {
-        public List<Error> Validate(WordprocessingDocument doc)
+        private readonly List<ValidationRule> _rules;
+
+        public FormattingValidator(List<ValidationRule> rules)
         {
-            List<Error> errors = new List<Error>();
-            var body = doc.MainDocumentPart?.Document.Body;
+            _rules = rules;
+        }
 
-            if (body == null) return errors;
+        public ValidationResult Validate(WordprocessingDocument doc)
+        {
+            var result = new ValidationResult();
+            var paragraphs = doc.MainDocumentPart.Document.Body.Elements<Paragraph>().ToList();
 
-            // Получаем стиль документа по умолчанию
-            var defaultFont = doc.MainDocumentPart.StyleDefinitionsPart?
-                               .Styles.Elements<Style>()
-                               .FirstOrDefault(s => s.Type == StyleValues.Paragraph && s.Default)?
-                               .StyleRunProperties?.RunFonts?.Ascii?.Value ?? "Times New Roman";
-
-            foreach (var paragraph in body.Elements<Paragraph>())
+            for (int i = 0; i < paragraphs.Count; i++)
             {
-                foreach (var run in paragraph.Elements<Run>())
+                foreach (var rule in _rules)
                 {
-                    var runProperties = run.RunProperties;
-
-                    // Проверяем шрифт несколькими способами
-                    var fontName = runProperties?.RunFonts?.Ascii?.Value
-                                  ?? runProperties?.RunFonts?.HighAnsi?.Value
-                                  ?? runProperties?.RunFonts?.ComplexScript?.Value
-                                  ?? defaultFont;
-
-                    if (fontName != "Times New Roman")
+                    if (!rule.Validate(paragraphs[i]))
                     {
-                        errors.Add(new Error
+                        result.Errors.Add(new Error
                         {
-                            ErrorType = "InvalidFont",
-                            Message = $"Недопустимый шрифт: '{fontName}'. Должен быть 'Times New Roman'.",
-                            ParagraphText = paragraph.InnerText
+                            ErrorType = rule.GetType().Name,
+                            Message = rule.ErrorMessage,
+                            ParagraphText = paragraphs[i].InnerText,
+                            ParagraphIndex = i
                         });
                     }
                 }
             }
-            return errors;
+
+            return result;
         }
     }
 }
