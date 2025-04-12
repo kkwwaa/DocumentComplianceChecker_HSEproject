@@ -1,66 +1,68 @@
-﻿using DocumentComplianceChecker_HSEproject.Interfaces;
-using DocumentFormat.OpenXml;
+﻿// Реальный упаковщик (имплементация)
+using DocumentComplianceChecker_HSEproject.Interfaces;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml;
 
-namespace DocumentComplianceChecker_HSEproject.Services
+public class Exporter : IExporter
 {
-    public class Exporter : IExporter
+    private readonly IFileManager _fileManager; // "Помощник" для работы с файлами
+
+    // Конструктор: даём упаковщику помощника
+    public Exporter(IFileManager fileManager)
     {
-        private readonly IFileManager _fileManager;
+        _fileManager = fileManager; // Запоминаем помощника
+    }
 
-        public Exporter(IFileManager fileManager)
-        {
-            _fileManager = fileManager;
-        }
+    // Упаковка документа
+    public void ExportAnnotatedDocument(WordprocessingDocument sourceDoc, string outputPath)
+    {
+        // 1. Проверяем входные данные
+        if (sourceDoc == null) throw new ArgumentNullException("Документ не может быть null");
+        if (string.IsNullOrWhiteSpace(outputPath)) throw new ArgumentException("Неверный путь");
 
-        public void ExportAnnotatedDocument(WordprocessingDocument sourceDoc, string outputPath)
+        try
         {
-            try
+            // 2. Удаляем старую файл, если она есть
+            if (_fileManager.FileExists(outputPath))
+                _fileManager.DeleteFile(outputPath);
+
+            // 3. Создаём новый документ Word
+            using (var newDoc = WordprocessingDocument.Create(outputPath, WordprocessingDocumentType.Document))
             {
-                // 1. Удаляем существующий файл, если есть
-                if (_fileManager.FileExists(outputPath))
-                {
-                    _fileManager.DeleteFile(outputPath);
-                }
+                // 4. Копируем основное содержимое
+                var targetMainPart = newDoc.AddMainDocumentPart();
+                targetMainPart.Document = new Document(new Body(
+                    sourceDoc.MainDocumentPart.Document.Body.CloneNode(true) // "Клонируем" содержимое
+                ));
 
-                // 2. Создаем новый документ
-                using (var newDoc = WordprocessingDocument.Create(
-                    outputPath,
-                    WordprocessingDocumentType.Document))
+                // 5. Копируем стили, настройки
+                foreach (var part in sourceDoc.Parts)
                 {
-                    // 3. Копируем основные части документа
-                    CopyMainDocumentPart(sourceDoc, newDoc);
-
-                    // 4. Копируем все остальные части (стили, настройки и т.д.)
-                    foreach (var part in sourceDoc.Parts)
+                    if (part.OpenXmlPart != sourceDoc.MainDocumentPart)
                     {
-                        if (part.OpenXmlPart != sourceDoc.MainDocumentPart)
-                        {
-                            newDoc.AddPart(part.OpenXmlPart, part.RelationshipId);
-                        }
+                        newDoc.AddPart(part.OpenXmlPart, part.RelationshipId);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Export failed: {ex.Message}", ex);
-            }
+            } // Здесь using автоматически "закрывает коробку" (Dispose)
         }
-
-        private void CopyMainDocumentPart(WordprocessingDocument source, WordprocessingDocument target)
+        catch (Exception ex)
         {
-            // Копируем содержимое основного документа
-            var sourceBody = source.MainDocumentPart.Document.Body;
-            var targetMainPart = target.AddMainDocumentPart();
-
-            targetMainPart.Document = new DocumentFormat.OpenXml.Wordprocessing.Document(
-                new Body(sourceBody.OuterXml));
+            throw new Exception($"Не удалось упаковать документ: {ex.Message}");
         }
+    }
 
-        public void ExportReport(string reportContent, string outputPath)
+    // Сохранение отчёта
+    public void ExportReport(string reportContent, string outputPath)
+    {
+        try
         {
-            _fileManager.WriteAllText(outputPath, reportContent);
+            // Просто записываем текст в файл
+            _fileManager.WriteAllText(outputPath, reportContent ?? "Отчёт пуст");
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Не удалось сохранить отчёт: {ex.Message}");
         }
     }
 }
