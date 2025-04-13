@@ -19,7 +19,9 @@ static void ConfigureServices(IServiceCollection services)
 var rules = new List<ValidationRule>
 {
     new FontRule { RequiredFont = "Times New Roman", ErrorMessage = "Неверный шрифт" },
-    new FontSizeRule { MinSize = 11, MaxSize = 13, ErrorMessage = "Неверный размер" }
+    new FontSizeRule { MinSize = 11, MaxSize = 13, ErrorMessage = "Неверный размер" },
+    new ColorRule { AllowedColors = new List<string> { "auto", "000000" },
+        ErrorMessage = "Цвет шрифта должен быть чёрным или авто"}
 };
 
 var services = new ServiceCollection(); // Создаём коллекцию сервисов
@@ -38,9 +40,9 @@ try
     var validator = provider.GetRequiredService<IFormattingValidator>();
     var annotator = new AnnotationGenerator();
 
-    string inputPath = "input.docx";
-    string outputPath = "output.docx";
-    string reportPath = "report.txt";
+    string inputPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\input.docx";
+    string outputPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\output.docx";
+    string reportPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\report.txt";
     
 
     if (!fileManager.FileExists(inputPath))
