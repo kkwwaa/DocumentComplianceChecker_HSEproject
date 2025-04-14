@@ -1,0 +1,9 @@
+﻿{
+    "Name": "ГОСТ",
+    "FontName": "Times New Roman",
+    "FontSize": 14,
+    "BoldRequired": false,
+    "ItalicRequired": false,
+    "LineSpacing": 2,
+    "HeadingFontSize": 16
+}

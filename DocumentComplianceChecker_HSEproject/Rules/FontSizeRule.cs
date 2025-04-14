@@ -1,10 +1,18 @@
 ﻿using DocumentComplianceChecker_HSEproject.Models;
+using DocumentComplianceChecker_HSEproject.Services;
 using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
     public class FontSizeRule : ValidationRule
     {
+        private FormattingTemplate template;
+
+        public FontSizeRule(FormattingTemplate template)
+        {
+            this.template = template;
+        }
+
         public int MinSize { get; set; } = 12;
         public int MaxSize { get; set; } = 14;
 

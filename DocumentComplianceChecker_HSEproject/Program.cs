@@ -2,6 +2,8 @@
 using DocumentComplianceChecker_HSEproject.Models;
 using DocumentComplianceChecker_HSEproject.Rules;
 using DocumentComplianceChecker_HSEproject.Services;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.Extensions.DependencyInjection;
 
 // Группировка регистраций
@@ -16,13 +18,18 @@ static void ConfigureServices(IServiceCollection services)
     services.AddTransient<AnnotationGenerator>();
 }
 
+var templateManager = new TemplateManager();
+var template = templateManager.LoadTemplate("C:\\Users\\stepa\\Source\\Repos\\DocumentComplianceChecker_HSEproject\\DocumentComplianceChecker_HSEproject\\Templates\\default.json");
+
+// передаёшь template в каждое правило
 var rules = new List<ValidationRule>
 {
-    new FontRule { RequiredFont = "Times New Roman", ErrorMessage = "Неверный шрифт" },
-    new FontSizeRule { MinSize = 11, MaxSize = 13, ErrorMessage = "Неверный размер" },
-    new ColorRule { AllowedColors = new List<string> { "auto", "000000" },
-        ErrorMessage = "Цвет шрифта должен быть чёрным или авто"}
+    new FontRule(template),
+    new FontSizeRule(template),
+    new HeadingRule(template),
+    new ColorRule(template)
 };
+
 
 var services = new ServiceCollection(); // Создаём коллекцию сервисов
 ConfigureServices(services); // Регистрируем зависимости

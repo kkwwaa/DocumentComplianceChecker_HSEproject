@@ -1,25 +1,40 @@
 ﻿using DocumentComplianceChecker_HSEproject.Models;
+using DocumentComplianceChecker_HSEproject.Services;
 using DocumentFormat.OpenXml.Wordprocessing;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
     public class ColorRule : ValidationRule
     {
-        // Допустимые цвета — по умолчанию "auto" и "000000"
-        public List<string> AllowedColors { get; set; } = new List<string> { "auto", "000000" };
+        private FormattingTemplate template;
+
+        public ColorRule(FormattingTemplate template)
+        {
+            this.template = template;
+        }
+
+        // Допустимые цвета: "auto" (по умолчанию) и черный ("000000")
+        public List<string> AllowedColors { get; set; } = new() { "auto", "000000" };
 
         public override bool Validate(Paragraph paragraph, Run run = null)
         {
-            var targetRun = run ?? paragraph.Elements<Run>().FirstOrDefault();
-            if (targetRun == null) return true;
+            // Получаем первый Run, если не передан напрямую
+            var targetRun = run ?? paragraph.Descendants<Run>().FirstOrDefault();
+            if (targetRun == null)
+                return true; // Нет текста — нет ошибки
 
-            var color = targetRun.RunProperties?.Color?.Val?.Value;
+            // Пытаемся получить значение цвета
+            var colorElement = targetRun.RunProperties?.Color;
+            var colorValue = colorElement?.Val?.Value;
 
-            // Если цвет не задан, считаем это "auto"
-            var effectiveColor = string.IsNullOrEmpty(color) ? "auto" : color;
+            // Если цвет не задан — считаем, что он "auto"
+            var effectiveColor = string.IsNullOrWhiteSpace(colorValue) ? "auto" : colorValue;
 
-            return AllowedColors.Any(c =>
-                effectiveColor.Equals(c, StringComparison.OrdinalIgnoreCase));
+            // Сравниваем с допустимыми цветами без учёта регистра
+            return AllowedColors.Any(allowed =>
+                string.Equals(effectiveColor, allowed, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
