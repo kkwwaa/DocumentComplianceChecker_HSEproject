@@ -7,10 +7,16 @@ namespace DocumentComplianceChecker_HSEproject.Rules
     public class FontSizeRule : ValidationRule
     {
         private FormattingTemplate template;
+        private Template template1;
 
         public FontSizeRule(FormattingTemplate template)
         {
             this.template = template;
+        }
+
+        public FontSizeRule(Template template1)
+        {
+            this.template1 = template1;
         }
 
         public int MinSize { get; set; } = 12;

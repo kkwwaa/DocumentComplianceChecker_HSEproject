@@ -8,10 +8,16 @@ namespace DocumentComplianceChecker_HSEproject.Rules
     public class FontRule : ValidationRule
     {
         private readonly FormattingTemplate _template;
+        private Template template;
 
         public FontRule(FormattingTemplate template)
         {
             _template = template;
+        }
+
+        public FontRule(Template template)
+        {
+            this.template = template;
         }
 
         public override bool Validate(Paragraph paragraph, Run run = null)

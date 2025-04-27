@@ -8,10 +8,16 @@ namespace DocumentComplianceChecker_HSEproject.Rules
     public class HeadingRule : ValidationRule
     {
         private readonly FormattingTemplate _template;
+        private Template template;
 
         public HeadingRule(FormattingTemplate template)
         {
             _template = template;
+        }
+
+        public HeadingRule(Template template)
+        {
+            this.template = template;
         }
 
         public IEnumerable<Error> Validate(WordprocessingDocument document)

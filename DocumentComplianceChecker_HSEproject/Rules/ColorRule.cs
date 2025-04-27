@@ -9,10 +9,16 @@ namespace DocumentComplianceChecker_HSEproject.Rules
     public class ColorRule : ValidationRule
     {
         private FormattingTemplate template;
+        private Template template1;
 
         public ColorRule(FormattingTemplate template)
         {
             this.template = template;
+        }
+
+        public ColorRule(Template template1)
+        {
+            this.template1 = template1;
         }
 
         // Допустимые цвета: "auto" (по умолчанию) и черный ("000000")
