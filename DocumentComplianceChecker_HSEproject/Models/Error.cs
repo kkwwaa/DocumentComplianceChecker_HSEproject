@@ -10,5 +10,6 @@ namespace DocumentComplianceChecker_HSEproject.Models
         public string ParagraphText { get; set; }
         public int ParagraphIndex { get; set; } // Новое поле
         public Run TargetRun { get; set; }
+        public string RuleName { get; internal set; }
     }
 }
