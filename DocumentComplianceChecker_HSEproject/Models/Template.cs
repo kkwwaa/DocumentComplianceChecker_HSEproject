@@ -1,100 +1,63 @@
-﻿using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentComplianceChecker_HSEproject.Models;
+using DocumentComplianceChecker_HSEproject.Rules;
 using DocumentFormat.OpenXml.Wordprocessing;
-using System;
-using System.Linq;
 
 namespace DocumentComplianceChecker_HSEproject.Models
 {
-    public class Template
+    // Класс шаблона, содержащий набор правил форматирования для проверки документа
+    internal class Template
     {
-        // Свойства шаблона
-        public string Name { get; set; }  // Имя шаблона
-        public string Font { get; set; }  // Шрифт, который используется в шаблоне
-        public double FontSize { get; set; }  // Размер шрифта
-        public string TemplatePath { get; set; }  // Путь к шаблону
-
-        // Добавлены свойства из FormattingTemplate
-        public bool BoldRequired { get; set; } = false;
-        public bool ItalicRequired { get; set; } = false;
-        public int LineSpacing { get; set; } = 2;
-        public int HeadingFontSize { get; set; } = 16;
-        public bool HeadingRule { get; internal set; }
-
-        // Конструктор для создания шаблона
-        public Template(string templatePath)
+        // Правило проверки цвета шрифта (разрешён только белый)
+        public class ColorRule1 : ValidationRule
         {
-            TemplatePath = templatePath;
-            LoadTemplate(templatePath);  // Загружаем шаблон из файла
-        }
+            // Допустимые цвета (в данном случае только белый)
+            public List<string> AllowedColors { get; set; } = new List<string> { "ffffff" };
 
-        // Метод для загрузки шаблона и извлечения параметров
-        private void LoadTemplate(string path)
-        {
-            try
+            public override bool Validate(Paragraph paragraph, Run run = null)
             {
-                // Открываем документ Word
-                using (WordprocessingDocument doc = WordprocessingDocument.Open(path, false))
-                {
-                    // Извлекаем данные о шрифте и других параметрах из документа
-                    var firstParagraph = doc.MainDocumentPart.Document.Body.Elements<Paragraph>().FirstOrDefault();
-                    if (firstParagraph != null)
-                    {
-                        var firstRun = firstParagraph.Elements<Run>().FirstOrDefault();
-                        if (firstRun != null)
-                        {
-                            var runProperties = firstRun.Elements<RunProperties>().FirstOrDefault();
-                            if (runProperties != null)
-                            {
-                                // Извлекаем шрифт
-                                var font = runProperties.Elements<Font>().FirstOrDefault();
-                                if (font != null)
-                                {
-                                    // пока не получилось реализовать логику
-                                }
+                // Получаем run (текстовый элемент), если не задан — берём первый в абзаце
+                var targetRun = run ?? paragraph.Elements<Run>().FirstOrDefault();
+                if (targetRun == null) return true; // Если run нет — считаем безошибочным
 
-                                // Извлекаем размер шрифта
-                                var fontSize = runProperties.Elements<FontSize>().FirstOrDefault();
-                                if (fontSize != null)
-                                {
-                                    FontSize = double.Parse(fontSize.Val.Value) / 2; // Переводим размер шрифта
-                                }
+                // Получаем значение цвета шрифта
+                var color = targetRun.RunProperties?.Color?.Val?.Value;
 
-                                // Извлекаем другие свойства, такие как Bold или Italic
-                                var bold = runProperties.Elements<Bold>().FirstOrDefault();
-                                if (bold != null)
-                                {
-                                    BoldRequired = true;
-                                }
+                // Если цвет не задан — считаем это ошибкой (можно изменить на допустимо)
+                if (string.IsNullOrEmpty(color)) return false;
 
-                                var italic = runProperties.Elements<Italic>().FirstOrDefault();
-                                if (italic != null)
-                                {
-                                    ItalicRequired = true;
-                                }
-                            }
-                        }
-                    }
-
-                    // Извлекаем информацию о междустрочном интервале
-                    var style = doc.MainDocumentPart.StyleDefinitionsPart.Styles.Elements<Style>().FirstOrDefault();
-                    if (style != null)
-                    {
-                        // Здесь можно извлечь дополнительные параметры, такие как междустрочный интервал
-                        // Однако для этого нужен более сложный механизм, который анализирует стиль документа.
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка при загрузке шаблона: {ex.Message}");
+                // Сравниваем цвет с допустимыми (без учёта регистра)
+                return AllowedColors.Any(c =>
+                    color.Equals(c, StringComparison.OrdinalIgnoreCase));
             }
         }
 
-        // Метод для проверки валидности шаблона
-        public bool IsValid()
+        // Правило выравнивания абзаца по центру
+        public class JustificationRule1 : ValidationRule
         {
-            // Простейшая проверка: шаблон должен иметь имя и шрифт
-            return !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Font);
+            public override bool Validate(Paragraph paragraph, Run run = null)
+            {
+                // Получаем значение выравнивания
+                var justification = paragraph.ParagraphProperties?.Justification?.Val;
+
+                // Проверка: задано ли выравнивание и является ли оно по центру
+                return justification != null && justification.Value == JustificationValues.Center;
+            }
+        }
+
+        // Коллекция всех правил, применяемых в данном шаблоне
+        public List<ValidationRule> Rules { get; } = new List<ValidationRule>();
+
+        // Конструктор шаблона с добавлением всех правил в список
+        public Template()
+        {
+            // Добавление каждого из правил в шаблон
+            Rules.Add(new ColorRule1());                        // Цвет шрифта: белый
+            Rules.Add(new JustificationRule1());               // Абзац выровнен по центру
+            Rules.Add(new LineSpacingRule());                  // Межстрочный интервал: 1.5
+            Rules.Add(new FirstLineIndentRule());              // Отступ первой строки: 1.25 см
+            Rules.Add(new PageMarginRule());                   // Поля документа: верх/низ — 2 см, лево — 3 см, право — 1.5 см
+            Rules.Add(new ParagraphSpacingRule());             // Отступы до/после абзаца: 0
+            Rules.Add(new ParagraphStyleAndSizeRule());        // Стиль, размер и начертание абзаца
         }
     }
 }
