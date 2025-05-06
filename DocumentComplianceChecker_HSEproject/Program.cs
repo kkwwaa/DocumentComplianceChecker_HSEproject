@@ -2,10 +2,7 @@
 using DocumentComplianceChecker_HSEproject.Models;
 using DocumentComplianceChecker_HSEproject.Rules;
 using DocumentComplianceChecker_HSEproject.Services;
-using DocumentFormat.OpenXml.Packaging;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 
 class Program
 {
@@ -58,9 +55,13 @@ class Program
             var validator = provider.GetRequiredService<IFormattingValidator>();
             var annotator = new AnnotationGenerator();
 
-            string inputPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\input.docx";
-            string outputPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\output.docx";
-            string reportPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\report.txt";
+            //string inputPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\input.docx";
+            //string outputPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\output.docx";
+            //string reportPath = "C:\\Users\\stepa\\OneDrive\\Рабочий стол\\report.txt";
+
+            string inputPath = "input.docx";
+            string outputPath = "output.docx";
+            string reportPath = "report.txt";
 
             // Проверяем существование исходного файла
             if (!fileManager.FileExists(inputPath))

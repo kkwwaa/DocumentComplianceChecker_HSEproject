@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.TemplateManager" Collapsed="true">
+    <Position X="3.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABIAAAAIAAAAAAAQAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Services\TemplateManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.FormattingValidator" Collapsed="true">
+    <Position X="9.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAQABAAAAAAA=</HashCode>
+      <FileName>Services\FormattingValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.FormattingTemplate" Collapsed="true">
+    <Position X="1.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkAAAAAAAAAAAAAAAAEEAgQAAAAAAAAAAAQAAAAAAAE=</HashCode>
+      <FileName>Services\FormattingTemplate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.FileManager" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAABCAEAAEAAEAAAAAAAAEAAAAUAAA=</HashCode>
+      <FileName>Services\FileManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.Exporter" Collapsed="true">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAIAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Exporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.DocumentLoader" Collapsed="true">
+    <Position X="9.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAQAAYAAAAAAAAAAQAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DocumentLoader.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.BatchProcessor" Collapsed="true">
+    <Position X="7.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\BatchProcessor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.AnnotationGenerator" Collapsed="true">
+    <Position X="1.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAKAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>Services\AnnotationGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.ValidationRule">
+    <Position X="9.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ValidationRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.ValidationResult">
+    <Position X="7.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ValidationResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.Template" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAkEIgQAAAgAAAAAAAQAAAACAAE=</HashCode>
+      <FileName>Models\Template.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.FieldError" Collapsed="true">
+    <Position X="3.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\FieldError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.Error" Collapsed="true">
+    <Position X="1.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACAAAACEAAIAABAAA=</HashCode>
+      <FileName>Models\Error.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.AnnotationType" Collapsed="true">
+    <Position X="3.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AnnotationType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DocumentComplianceChecker_HSEproject.Services
 {
-    internal class TemplateEditor
+    class TemplateEditor
     {
     }
 }
