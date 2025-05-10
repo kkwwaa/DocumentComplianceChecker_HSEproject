@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DocumentComplianceChecker_HSEproject.Services
+﻿namespace DocumentComplianceChecker_HSEproject.Services
 {
-    class TemplateEditor
+    internal class TemplateEditor
     {
     }
 }

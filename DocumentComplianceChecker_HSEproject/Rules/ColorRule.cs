@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
-    public class ColorRule : ValidationRule
+    internal class ColorRule : ValidationRule
     {
         // Допустимые цвета — по умолчанию "auto" и "000000"
         public List<string> AllowedColors { get; set; } = new List<string> { "auto", "000000" };

@@ -19,7 +19,7 @@ namespace DocumentComplianceChecker_HSEproject.Interfaces
     /// <summary>
     /// Интерфейс фабрики для создания валидатора
     /// </summary>
-    public interface IFormattingValidatorFactory
+    internal interface IFormattingValidatorFactory
     {
         /// <summary>
         /// Создает экземпляр валидатора с указанными правилами

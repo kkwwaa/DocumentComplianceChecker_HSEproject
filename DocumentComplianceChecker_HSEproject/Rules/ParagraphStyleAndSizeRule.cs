@@ -4,7 +4,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
     // Правило для проверки соответствия стиля абзаца, размера шрифта и жирности текста
-    public class ParagraphStyleAndSizeRule : ValidationRule
+    internal class ParagraphStyleAndSizeRule : ValidationRule
     {
         public override bool Validate(Paragraph paragraph, Run run = null)
         {
@@ -34,6 +34,7 @@ namespace DocumentComplianceChecker_HSEproject.Rules
             // Проверка на соответствие стилю, размеру и жирности
             switch (styleId)
             {
+                // Заменить числа на числа из правил пользователя
                 case "Заголовок 1":
                     return Math.Abs(sizeInPoints - 16) < 0.1 && isBold;
                 case "Заголовок 2":

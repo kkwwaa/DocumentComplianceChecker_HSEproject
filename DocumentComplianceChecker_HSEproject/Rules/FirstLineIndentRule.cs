@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
-    public class FirstLineIndentRule : ValidationRule
+    internal class FirstLineIndentRule : ValidationRule
     {
         public double RequiredIndentInCm { get; set; } = 1.25;
 

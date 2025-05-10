@@ -10,7 +10,7 @@ namespace DocumentComplianceChecker_HSEproject.Services
         private readonly Template _template;
 
         // Конструктор, принимает объект шаблона и сохраняет его для дальнейшей валидации
-        public FormattingTemplate(Template template)
+        internal FormattingTemplate(Template template)
         {
             _template = template;
         }

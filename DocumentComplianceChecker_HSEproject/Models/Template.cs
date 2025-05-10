@@ -8,7 +8,7 @@ namespace DocumentComplianceChecker_HSEproject.Models
     internal class Template
     {
         // Правило проверки цвета шрифта (разрешён только белый)
-        public class ColorRule1 : ValidationRule
+        private class ColorRule1 : ValidationRule
         {
             // Допустимые цвета (в данном случае только белый)
             public List<string> AllowedColors { get; set; } = new List<string> { "ffffff" };
@@ -32,7 +32,7 @@ namespace DocumentComplianceChecker_HSEproject.Models
         }
 
         // Правило выравнивания абзаца по центру
-        public class JustificationRule1 : ValidationRule
+        private class JustificationRule1 : ValidationRule
         {
             public override bool Validate(Paragraph paragraph, Run run = null)
             {
@@ -48,7 +48,7 @@ namespace DocumentComplianceChecker_HSEproject.Models
         public List<ValidationRule> Rules { get; } = new List<ValidationRule>();
 
         // Конструктор шаблона с добавлением всех правил в список
-        public Template()
+        internal Template()
         {
             // Добавление каждого из правил в шаблон
             Rules.Add(new ColorRule1());                        // Цвет шрифта: белый

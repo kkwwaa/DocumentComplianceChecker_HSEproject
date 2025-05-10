@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
-    public class JustificationRule : ValidationRule
+    internal class JustificationRule : ValidationRule
     {
         public override bool Validate(Paragraph paragraph, Run run = null)
         {

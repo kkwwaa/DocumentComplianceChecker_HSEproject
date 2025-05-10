@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
-    public class PageMarginRule : ValidationRule
+    internal class PageMarginRule : ValidationRule
     {
         // Допустимые значения полей в сантиметрах
         private const double TopCm = 2.0;

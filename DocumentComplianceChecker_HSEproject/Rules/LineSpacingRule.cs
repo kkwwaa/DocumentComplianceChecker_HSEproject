@@ -3,9 +3,9 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
-    public class LineSpacingRule : ValidationRule
+    internal class LineSpacingRule : ValidationRule
     {
-        public double RequiredLineSpacing { get; set; } = 1.5;
+        internal double RequiredLineSpacing { get; set; } = 1.5;
 
         public override bool Validate(Paragraph paragraph, Run run = null)
         {
