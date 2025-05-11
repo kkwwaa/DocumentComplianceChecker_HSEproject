@@ -1,44 +1,55 @@
 ﻿using DocumentComplianceChecker_HSEproject.Models;
 using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Packaging;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DocumentComplianceChecker_HSEproject.Services
 {
-    // Класс отвечает за применение набора правил форматирования (из шаблона) к отдельному абзацу
     internal class FormattingTemplate
     {
-        // Приватное поле — шаблон, содержащий набор правил форматирования
         private readonly Template _template;
 
-        // Конструктор, принимает объект шаблона и сохраняет его для дальнейшей валидации
         internal FormattingTemplate(Template template)
         {
             _template = template;
         }
 
-        // Проверяет один абзац на соответствие всем правилам шаблона
+        // Проверка одного абзаца
         public ValidationResult ValidateParagraph(Paragraph paragraph)
         {
-            // Создаём объект результата валидации, который будет содержать ошибки
             var result = new ValidationResult();
 
-            // Применяем каждое правило из шаблона к абзацу
             foreach (var rule in _template.Rules)
             {
-                // Проверка: проходит ли абзац данное правило
                 bool passed = rule.Validate(paragraph);
 
-                // Если не проходит — добавляем ошибку в результат
                 if (!passed)
                 {
                     result.Errors.Add(new Error
                     {
-                        RuleName = rule.GetType().Name, // Название класса правила
-                        Message = $"Нарушение правила: {rule.GetType().Name}" // Сообщение об ошибке
+                        RuleName = rule.GetType().Name,
+                        Message = $"Нарушение правила: {rule.GetType().Name}"
                     });
                 }
             }
 
-            // Возвращаем итоговый результат с ошибками (если были)
+            return result;
+        }
+
+        // Проверяет весь документ Word
+        public ValidationResult ValidateDocument(WordprocessingDocument document)
+        {
+            var result = new ValidationResult();
+
+            var paragraphs = document.MainDocumentPart?.Document?.Body?.Descendants<Paragraph>() ?? Enumerable.Empty<Paragraph>();
+
+            foreach (var paragraph in paragraphs)
+            {
+                var paragraphResult = ValidateParagraph(paragraph);
+                result.Errors.AddRange(paragraphResult.Errors);
+            }
+
             return result;
         }
     }
