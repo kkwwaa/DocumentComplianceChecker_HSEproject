@@ -1,0 +1,705 @@
+Найдено ошибок: 352
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Wewew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Wewew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Wewew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Wewew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fdf
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fdf
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fdf
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fdf
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fdsfs
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fdsfs
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fdsfs
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fdsfs
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fsds
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fsds
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fsds
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fsds
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: dff
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: dff
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: dff
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: dff
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fgrg
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fgrg
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fgrg
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fgrg
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fwew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fwew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fwew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fwew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: e.
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: e.
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: e.
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: e.
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Wewew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Wewew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Wewew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Wewew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fdf
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fdf
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fdf
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fdf
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fdsfs
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fdsfs
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fdsfs
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fdsfs
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fsds
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fsds
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fsds
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fsds
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: dff
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: dff
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: dff
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: dff
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fgrg
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fgrg
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fgrg
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fgrg
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fwew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fwew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fwew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fwew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: e.
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: e.
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: e.
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: e.
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Wewew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Wewew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Wewew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Wewew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fdf
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fdf
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fdf
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fdf
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fdsfs
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fdsfs
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fdsfs
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fdsfs
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fsds
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fsds
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fsds
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fsds
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: dff
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: dff
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: dff
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: dff
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fgrg
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fgrg
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fgrg
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fgrg
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fwew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fwew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fwew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fwew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: e.
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: e.
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: e.
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: e.
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Wewew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Wewew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Wewew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Wewew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fdf
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fdf
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fdf
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fdf
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fdsfs
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fdsfs
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fdsfs
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fdsfs
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fsds
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fsds
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fsds
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fsds
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: dff
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: dff
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: dff
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: dff
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fgrg
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fgrg
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fgrg
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fgrg
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fwew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fwew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fwew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fwew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: e.
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: e.
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: e.
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: e.
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Wewew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Wewew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Wewew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Wewew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fdf
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fdf
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fdf
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fdf
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fdsfs
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fdsfs
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fdsfs
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fdsfs
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fsds
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fsds
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fsds
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fsds
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: dff
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: dff
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: dff
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: dff
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fgrg
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fgrg
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fgrg
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fgrg
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fwew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fwew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fwew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fwew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: e.
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: e.
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: e.
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: e.
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Wewew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Wewew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Wewew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Wewew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fdf
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fdf
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fdf
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fdf
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fdsfs
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fdsfs
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fdsfs
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fdsfs
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: .
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: .
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: .
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: .
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: Fsds
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: Fsds
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: Fsds
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: Fsds
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: dff
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: dff
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: dff
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: dff
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fgrg
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fgrg
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fgrg
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fgrg
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: 
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: 
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: 
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: 
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: fwew
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: fwew
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: fwew
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: fwew
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: e.
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: e.
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: e.
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: e.
+- [ParagraphStyleAndSizeRule] Стиль или формат заголовка/текста не соответствует требованиям
+  Текст: s.
+- [LineSpacingRule] Межстрочный интервал должен быть 1,5
+  Текст: s.
+- [FirstLineIndentRule] Красная строка должна быть 1,25 см
+  Текст: s.
+- [JustificationRule] Абзац должен быть выровнен по ширине
+  Текст: s.
