@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
-    // Правило для проверки отсутствия отступов и интервалов у абзацев
+    // Правило для проверки отступов и интервалов у абзацев
     internal class ParagraphSpacingRule : ValidationRule
     {
         public override bool Validate(Paragraph paragraph, Run run = null)
