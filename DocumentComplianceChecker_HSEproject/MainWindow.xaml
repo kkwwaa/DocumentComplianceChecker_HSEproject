@@ -3,24 +3,49 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Document Compliance Checker" Height="400" Width="600">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="255*"/>
+            <ColumnDefinition Width="346*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Панель управления -->
-        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5">
-            <TextBlock Text="Выберите режим проверки:" FontSize="14" Margin="0,0,0,5"/>
+        <StackPanel Grid.Row="0" Orientation="Vertical" Margin="5,5,5,5" Grid.ColumnSpan="2">
+            <!-- Текст и кнопка "Помощь" -->
+            <Grid Margin="0,0,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Выберите режим проверки:" FontSize="14" Margin="0,0,0,5" Grid.Column="0"/>
+                <Button x:Name="HelpButton" Content="Помощь" Width="80" Height="30" Click="HelpButton_Click" Grid.Column="2" HorizontalAlignment="Right" Tag="100"/>
+            </Grid>
+
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <RadioButton x:Name="StandardRulesRadio" Content="Стандартные правила" IsChecked="True" Margin="0,0,10,0"/>
-                <RadioButton x:Name="TemplateRadio" Content="Использовать шаблон" />
+                <RadioButton x:Name="StandardRulesRadio" Content="Стандартные правила" IsChecked="True" Margin="0,0,10,0" Tag="104"/>
+                <RadioButton x:Name="TemplateRadio" Content="Использовать шаблон" Tag="104"/>
             </StackPanel>
-            <Button Content="Проверить документ" Width="150" Height="30" Click="CheckDocument_Click"/>
+
+            <!-- Текстовое поле для ввода пути -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <TextBox x:Name="InputPathTextBox" Width="300" Height="25" Margin="0,0,5,0" Text="D:\source\repos\DocumentComplianceChecker_HSEproject\add_files\input.docx" Tag="101"/>
+                <Button x:Name="BrowseButton" Content="Обзор..." Width="80" Height="25" Click="BrowseButton_Click" Tag="102"/>
+            </StackPanel>
+
+            <!-- Кнопка "Проверить документ" -->
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
+                <Button x:Name="CheckDocumentButton" Content="Проверить документ" Width="150" Height="30" Click="CheckDocument_Click" Tag="103"/>
+                
+            </StackPanel>
         </StackPanel>
 
         <!-- Лог -->
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="5">
-            <TextBlock x:Name="LogTextBlock" TextWrapping="Wrap"/>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="5,5,5,5" Grid.ColumnSpan="2">
+            <TextBlock x:Name="LogTextBlock" TextWrapping="Wrap" Tag="105"/>
         </ScrollViewer>
     </Grid>
 </Window>

@@ -14,7 +14,7 @@ namespace DocumentComplianceChecker_HSEproject.Services
         // Конструктор: принимает список правил и сохраняет для использования валидации
         public FormattingValidator(List<ValidationRule> rules)
         {
-            _rules = rules;
+            _rules = rules; // предварительно вычленяем из шаблона правила и отправляем сюда (подумать, почему нет?)
         }
 
         // Метод валидации: обходит все абзацы документа и применяет к каждому Run все правила

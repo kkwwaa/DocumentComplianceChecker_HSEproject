@@ -2,12 +2,12 @@
 using DocumentComplianceChecker_HSEproject.Models;
 using DocumentComplianceChecker_HSEproject.Rules;
 using DocumentComplianceChecker_HSEproject.Services;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using DocumentFormat.OpenXml.Vml.Office;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace DocumentComplianceChecker_HSEproject
 {
@@ -19,12 +19,14 @@ namespace DocumentComplianceChecker_HSEproject
         private readonly IServiceProvider provider;
         private List<MyValidationRule> _rules;
         private bool _useTemplate;
+        private const string HelpFileName = "\"C:\\Users\\user\\Desktop\\project\\материалы\\CHM_DocumentComplianceChecker.chm\"";
 
         public MainWindow()
         {
             InitializeComponent();
 
-          
+            // Регистрируем обработчик для клавиши F1
+            this.KeyDown += MainWindow_KeyDown;
         }
 
         private void ConfigureServices(IServiceCollection services)
@@ -104,8 +106,15 @@ namespace DocumentComplianceChecker_HSEproject
                 var exporter = provider.GetRequiredService<IExporter>();
                 var annotator = provider.GetRequiredService<AnnotationGenerator>();
 
+                // Получаем путь из текстового поля
+                string inputPath = InputPathTextBox.Text.Trim();
+                if (string.IsNullOrEmpty(inputPath))
+                {
+                    LogTextBlock.Text = "Пожалуйста, укажите путь к файлу!";
+                    return;
+                }
+
                 // Пути к файлам
-                string inputPath = @"D:\source\repos\DocumentComplianceChecker_HSEproject\add_files\input.docx";
                 string outputPath = @"D:\source\repos\DocumentComplianceChecker_HSEproject\add_files\output.docx";
                 string reportPath = @"D:\source\repos\DocumentComplianceChecker_HSEproject\add_files\report.txt";
 
@@ -155,6 +164,67 @@ namespace DocumentComplianceChecker_HSEproject
             catch (Exception ex)
             {
                 LogTextBlock.Text = $"Ошибка: {ex.Message}";
+            }
+        }
+        private void BrowseButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Word Documents (*.docx)|*.docx|All Files (*.*)|*.*",
+                Title = "Выберите файл для проверки"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                InputPathTextBox.Text = openFileDialog.FileName;
+            }
+        }
+
+        private void HelpButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Открываем CHM-файл
+                Process.Start(new ProcessStartInfo(HelpFileName) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                // Показываем ошибку в логе
+                LogTextBlock.Text = $"Ошибка при открытии справки: {ex.Message}";
+            }
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1)
+            {
+                try
+                {
+                    // Получаем текущий активный элемент
+                    var focusedElement = Keyboard.FocusedElement as FrameworkElement;
+                    string helpId = focusedElement?.Tag?.ToString();
+
+                    if (!string.IsNullOrEmpty(helpId))
+                    {
+                        // Открываем CHM с указанием Help ID
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = "hh.exe",
+                            Arguments = $"-mapid {helpId} {HelpFileName}",
+                            UseShellExecute = true
+                        });
+                    }
+                    else
+                    {
+                        // Если Help ID нет, открываем главную страницу
+                        Process.Start(new ProcessStartInfo(HelpFileName) { UseShellExecute = true });
+                    }
+                    e.Handled = true; // Предотвращаем дальнейшую обработку F1
+                }
+                catch (Exception ex)
+                {
+                    LogTextBlock.Text = $"Ошибка при открытии контекстной справки: {ex.Message}";
+                }
             }
         }
     }

@@ -10,13 +10,13 @@ namespace DocumentComplianceChecker_HSEproject.Services
         private readonly Template _template;
 
         // Конструктор, принимает объект шаблона и сохраняет его для дальнейшей валидации
-        internal FormattingTemplate(Template template)
+        internal FormattingTemplate(Template template) // Template мог бы внутри себя строить список правил, которые он содержит
         {
             _template = template;
         }
 
         // Проверяет один абзац на соответствие всем правилам шаблона
-        public ValidationResult ValidateParagraph(Paragraph paragraph)
+        public ValidationResult ValidateParagraph(Paragraph paragraph) // сделать приватным
         {
             // Создаём объект результата валидации, который будет содержать ошибки
             var result = new ValidationResult();
