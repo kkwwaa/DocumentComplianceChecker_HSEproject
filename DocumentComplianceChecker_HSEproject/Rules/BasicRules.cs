@@ -188,9 +188,9 @@ internal class BasicRules
             string styleId = paragraph.ParagraphProperties?.ParagraphStyleId?.Val?.Value;
             if (styleId == null || !styleId.StartsWith("TOC")) return true;
 
-            // Проверим, содержит ли TOC-пункт текст заголовка уровня 3
-            var text = paragraph.InnerText.ToLower();
-            return !(text.Contains("3.") || text.Contains("3 "));
+            // Просто проверяем, если это заголовок 3 уровня
+            return paragraph.InnerText.Contains("3 ");
         }
     }
+
 }

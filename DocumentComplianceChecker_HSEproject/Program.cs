@@ -2,6 +2,7 @@
 using DocumentComplianceChecker_HSEproject.Models;
 using DocumentComplianceChecker_HSEproject.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.RegularExpressions;
 
 static void ConfigureServices(IServiceCollection services)
 {
@@ -29,23 +30,21 @@ bool useTemplate = false;
 if (choice == "1")
 {
     rules = new List<IValidationRule>
-{
-    new BasicRules.ColorRule(),
-    new BasicRules.FirstLineIndentRule(),
-    new BasicRules.JustificationRule(),
-    new BasicRules.LineSpacingRule(),
-    new BasicRules.PageMarginRule(),
-    new BasicRules.ParagraphSpacingRule(),
-    new BasicRules.ParagraphStyleAndSizeRule(),
-    new BasicRules.HeadingStartsNewPageRule(),
-    new BasicRules.HeadingSpacingRule(),
-    new BasicRules.Heading3NotInTOCRule()
-};
-
+    {
+        new BasicRules.ColorRule(),
+        new BasicRules.FirstLineIndentRule(),
+        new BasicRules.JustificationRule(),
+        new BasicRules.LineSpacingRule(),
+        new BasicRules.PageMarginRule(),
+        new BasicRules.ParagraphSpacingRule(),
+        new BasicRules.ParagraphStyleAndSizeRule(),
+        new BasicRules.HeadingStartsNewPageRule(),
+        new BasicRules.HeadingSpacingRule(),
+        new BasicRules.Heading3NotInTOCRule()
+    };
 
     services.AddSingleton(rules);
 }
-
 else if (choice == "2")
 {
     useTemplate = true;
@@ -81,21 +80,43 @@ try
 
     // Итоговый объект с результатами валидации
     ValidationResult validationResult;
+    List<string> errorMessages = new List<string>();
 
     if (useTemplate)
     {
         var template = provider.GetRequiredService<Template>();
         var formatter = new FormattingTemplate(template);
         validationResult = formatter.ValidateDocument(doc); // Новый метод
+
+        // Собираем все ошибки в список
+        foreach (var error in validationResult.Errors)
+        {
+            // Простой способ получения строки из ошибки, если она не связана с позицией
+            errorMessages.Add($"Ошибка: {error.Message}");
+        }
     }
     else
     {
         var validator = provider.GetRequiredService<IFormattingValidator>();
         validationResult = validator.Validate(doc); // Метод возвращает ValidationResult
+
+        // Собираем все ошибки в список
+        foreach (var error in validationResult.Errors)
+        {
+            // Простой способ получения строки из ошибки, если она не связана с позицией
+            errorMessages.Add($"Ошибка: {error.Message}");
+        }
     }
 
     annotator.ApplyAnnotations(doc, validationResult);
     exporter.ExportReport(validationResult, reportPath);
+
+    // Вывод всех ошибок
+    Console.WriteLine("Ошибки по строкам:");
+    foreach (var errorMessage in errorMessages)
+    {
+        Console.WriteLine(errorMessage);
+    }
 
     Console.WriteLine($"Проверка завершена. Результаты сохранены в:\n{outputPath}\n{reportPath}");
 }
