@@ -1,8 +1,6 @@
 ﻿using DocumentComplianceChecker_HSEproject.Models;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace DocumentComplianceChecker_HSEproject.Services
 {
@@ -22,7 +20,7 @@ namespace DocumentComplianceChecker_HSEproject.Services
 
             foreach (var rule in _template.Rules)
             {
-                bool passed = rule.Validate(paragraph);
+                bool passed = rule.RuleValidator(paragraph);
 
                 if (!passed)
                 {

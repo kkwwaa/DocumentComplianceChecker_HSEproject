@@ -1,6 +1,5 @@
 ﻿using DocumentComplianceChecker_HSEproject.Interfaces;
 using DocumentComplianceChecker_HSEproject.Models;
-using DocumentComplianceChecker_HSEproject.Rules;
 using DocumentComplianceChecker_HSEproject.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,48 +23,29 @@ Console.WriteLine("2. Использовать шаблон (Template)");
 Console.Write("Введите номер варианта: ");
 string choice = Console.ReadLine();
 
-List<ValidationRule> rules = null;
+List<IValidationRule> rules = null;
 bool useTemplate = false;
 
 if (choice == "1")
 {
-    rules = new List<ValidationRule>
-    {
-        new ParagraphStyleAndSizeRule
-        {
-            ErrorMessage = "Стиль или формат заголовка/текста не соответствует требованиям"
-        },
-        new ColorRule
-        {
-            AllowedColors = new List<string> { "auto", "000000" },
-            ErrorMessage = "Цвет шрифта должен быть чёрным или авто"
-        },
-        new PageMarginRule
-        {
-            ErrorMessage = "Поля документа не соответствуют требованиям (верх: 2см, низ: 2см, лево: 3см, право: 1.5см)"
-        },
-        new LineSpacingRule
-        {
-            RequiredLineSpacing = 1.5,
-            ErrorMessage = "Межстрочный интервал должен быть 1,5"
-        },
-        new FirstLineIndentRule
-        {
-            RequiredIndentInCm = 1.25,
-            ErrorMessage = "Красная строка должна быть 1,25 см"
-        },
-        new JustificationRule
-        {
-            ErrorMessage = "Абзац должен быть выровнен по ширине"
-        },
-        new ParagraphSpacingRule
-        {
-            ErrorMessage = "Абзацы должны иметь отступы: слева = 0, справа = 0, перед = 0, после = 0"
-        }
-    };
+    rules = new List<IValidationRule>
+{
+    new BasicRules.ColorRule(),
+    new BasicRules.FirstLineIndentRule(),
+    new BasicRules.JustificationRule(),
+    new BasicRules.LineSpacingRule(),
+    new BasicRules.PageMarginRule(),
+    new BasicRules.ParagraphSpacingRule(),
+    new BasicRules.ParagraphStyleAndSizeRule(),
+    new BasicRules.HeadingStartsNewPageRule(),
+    new BasicRules.HeadingSpacingRule(),
+    new BasicRules.Heading3NotInTOCRule()
+};
+
 
     services.AddSingleton(rules);
 }
+
 else if (choice == "2")
 {
     useTemplate = true;

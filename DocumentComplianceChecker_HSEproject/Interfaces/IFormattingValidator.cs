@@ -25,6 +25,6 @@ namespace DocumentComplianceChecker_HSEproject.Interfaces
         /// Создает экземпляр валидатора с указанными правилами
         /// </summary>
         /// <param name="rules">Коллекция правил проверки</param>
-        IFormattingValidator CreateValidator(IEnumerable<ValidationRule> rules);
+        IFormattingValidator CreateValidator(IEnumerable<IValidationRule> rules);
     }
 }

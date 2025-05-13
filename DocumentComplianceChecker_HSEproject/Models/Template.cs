@@ -1,6 +1,4 @@
-﻿using DocumentComplianceChecker_HSEproject.Models;
-using DocumentComplianceChecker_HSEproject.Rules;
-using DocumentFormat.OpenXml.Wordprocessing;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Models
 {
@@ -8,12 +6,13 @@ namespace DocumentComplianceChecker_HSEproject.Models
     internal class Template
     {
         // Правило проверки цвета шрифта (разрешён только белый)
-        private class ColorRuleTemplate : ValidationRule
+        private class ColorRuleTemplate : IValidationRule
         {
+            public string ErrorMessage { get; set; } = "Недопустимый цвет текста.";
             // Допустимые цвета (в данном случае только белый)
             public List<string> AllowedColors { get; set; } = new List<string> { "ffffff" };
 
-            public override bool Validate(Paragraph paragraph, Run run = null)
+            public bool RuleValidator(Paragraph paragraph, Run run = null)
             {
                 // Получаем run (текстовый элемент), если не задан — берём первый в абзаце
                 var targetRun = run ?? paragraph.Elements<Run>().FirstOrDefault();
@@ -32,9 +31,10 @@ namespace DocumentComplianceChecker_HSEproject.Models
         }
 
         // Правило выравнивания абзаца по центру
-        private class JustificationRuleTemplate : ValidationRule
+        private class JustificationRuleTemplate : IValidationRule
         {
-            public override bool Validate(Paragraph paragraph, Run run = null)
+            public string ErrorMessage { get; set; } = "Недопустимое выравнивание.";
+            public bool RuleValidator(Paragraph paragraph, Run run = null)
             {
                 // Получаем значение выравнивания
                 var justification = paragraph.ParagraphProperties?.Justification?.Val;
@@ -44,11 +44,12 @@ namespace DocumentComplianceChecker_HSEproject.Models
             }
         }
 
-        private class LineSpacingRuleTemplate : ValidationRule
+        private class LineSpacingRuleTemplate : IValidationRule
         {
+            public string ErrorMessage { get; set; } = "Недопустимый интервал.";
             internal double RequiredLineSpacing { get; set; } = 1.5;
 
-            public override bool Validate(Paragraph paragraph, Run run = null)
+            public bool RuleValidator(Paragraph paragraph, Run run = null)
             {
                 var spacing = paragraph.ParagraphProperties?.SpacingBetweenLines;
                 if (spacing == null)
@@ -65,11 +66,12 @@ namespace DocumentComplianceChecker_HSEproject.Models
             }
         }
 
-        private class FirstLineIndentRuleTemplate : ValidationRule
+        private class FirstLineIndentRuleTemplate : IValidationRule
         {
+            public string ErrorMessage { get; set; } = "Неверный отступ первой строки";
             public double RequiredIndentInCm { get; set; } = 1.25;
 
-            public override bool Validate(Paragraph paragraph, Run run = null)
+            public bool RuleValidator(Paragraph paragraph, Run run = null)
             {
                 var firstLineIndent = paragraph.ParagraphProperties?.Indentation?.FirstLine;
 
@@ -88,8 +90,10 @@ namespace DocumentComplianceChecker_HSEproject.Models
             }
         }
 
-        private class PageMarginRuleTemplate : ValidationRule
+        private class PageMarginRuleTemplate : IValidationRule
         {
+            public string ErrorMessage { get; set; } = "Недопустимые поля.";
+
             // Допустимые значения полей в сантиметрах
             private const double TopCm = 2.0;
             private const double BottomCm = 2.0;
@@ -99,7 +103,7 @@ namespace DocumentComplianceChecker_HSEproject.Models
             // Преобразование см в twentieths of a point (единицы OpenXML)
             private static int CmToTwips(double cm) => (int)(cm * 567); // 1 см ≈ 567 twips
 
-            public override bool Validate(Paragraph paragraph, Run run = null)
+            public bool RuleValidator(Paragraph paragraph, Run run = null)
             {
                 // Получаем доступ к документу через родительскую иерархию
                 var document = paragraph.Ancestors<Body>()
@@ -120,9 +124,10 @@ namespace DocumentComplianceChecker_HSEproject.Models
             }
         }
 
-        private class ParagraphSpacingRuleTemplate : ValidationRule
+        private class ParagraphSpacingRuleTemplate : IValidationRule
         {
-            public override bool Validate(Paragraph paragraph, Run run = null)
+            public string ErrorMessage { get; set; } = "Недопустимые отступы.";
+            public bool RuleValidator(Paragraph paragraph, Run run = null)
             {
                 // Получаем свойства абзаца (ParagraphProperties)
                 var props = paragraph.ParagraphProperties;
@@ -149,9 +154,10 @@ namespace DocumentComplianceChecker_HSEproject.Models
             }
         }
 
-        private class ParagraphStyleAndSizeRuleTemplate : ValidationRule
+        private class ParagraphStyleAndSizeRuleTemplate : IValidationRule
         {
-            public override bool Validate(Paragraph paragraph, Run run = null)
+            public string ErrorMessage { get; set; } = "Неверный стиль или размер текста.";
+            public bool RuleValidator(Paragraph paragraph, Run run = null)
             {
                 // Получаем идентификатор стиля абзаца (например, "Заголовок 1", "Обычный")
                 string styleId = paragraph.ParagraphProperties?.ParagraphStyleId?.Val?.Value;
@@ -195,7 +201,7 @@ namespace DocumentComplianceChecker_HSEproject.Models
         }
 
             // Коллекция всех правил, применяемых в данном шаблоне
-            public List<ValidationRule> Rules { get; } = new List<ValidationRule>();
+            public List<IValidationRule> Rules { get; } = new List<IValidationRule>();
 
         // Конструктор шаблона с добавлением всех правил в список
         internal Template()

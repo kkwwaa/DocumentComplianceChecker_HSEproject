@@ -9,10 +9,10 @@ namespace DocumentComplianceChecker_HSEproject.Services
     public class FormattingValidator : IFormattingValidator
     {
         // Список правил форматирования, которые будут применяться к каждому элементу документа
-        private readonly List<ValidationRule> _rules;
+        private readonly List<IValidationRule> _rules;
 
         // Конструктор: принимает список правил и сохраняет для использования валидации
-        public FormattingValidator(List<ValidationRule> rules)
+        public FormattingValidator(List<IValidationRule> rules)
         {
             _rules = rules;
         }
@@ -41,7 +41,7 @@ namespace DocumentComplianceChecker_HSEproject.Services
                     foreach (var rule in _rules)
                     {
                         // Если правило не выполнено
-                        if (!rule.Validate(paragraph, run))
+                        if (!rule.RuleValidator(paragraph, run))
                         {
                             // Выводим текст Run'а в консоль для отладки
                             Console.WriteLine(GetRunText(run));
