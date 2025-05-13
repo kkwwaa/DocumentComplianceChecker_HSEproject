@@ -2,7 +2,6 @@
 using DocumentComplianceChecker_HSEproject.Models;
 using DocumentComplianceChecker_HSEproject.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.RegularExpressions;
 
 static void ConfigureServices(IServiceCollection services)
 {
@@ -82,42 +81,46 @@ try
     ValidationResult validationResult;
     List<string> errorMessages = new List<string>();
 
+    HashSet<string> uniqueErrors = new HashSet<string>();
+
     if (useTemplate)
     {
         var template = provider.GetRequiredService<Template>();
         var formatter = new FormattingTemplate(template);
-        validationResult = formatter.ValidateDocument(doc); // Новый метод
+        validationResult = formatter.ValidateDocument(doc);
 
-        // Собираем все ошибки в список
+        // Проходим по всем ошибкам
         foreach (var error in validationResult.Errors)
         {
-            // Простой способ получения строки из ошибки, если она не связана с позицией
-            errorMessages.Add($"Ошибка: {error.Message}");
+            uniqueErrors.Add(error.Message); // Собираем уникальные ошибки
         }
     }
     else
     {
         var validator = provider.GetRequiredService<IFormattingValidator>();
-        validationResult = validator.Validate(doc); // Метод возвращает ValidationResult
+        validationResult = validator.Validate(doc);
 
-        // Собираем все ошибки в список
+        // Проходим по всем ошибкам
         foreach (var error in validationResult.Errors)
         {
-            // Простой способ получения строки из ошибки, если она не связана с позицией
-            errorMessages.Add($"Ошибка: {error.Message}");
+            uniqueErrors.Add(error.Message); // Собираем уникальные ошибки
         }
     }
 
+    // Применяем аннотации на основе уникальных ошибок
     annotator.ApplyAnnotations(doc, validationResult);
+
+    // Создаём отчет
     exporter.ExportReport(validationResult, reportPath);
 
     // Вывод всех ошибок
-    Console.WriteLine("Ошибки по строкам:");
-    foreach (var errorMessage in errorMessages)
+    Console.WriteLine("Ошибки по абзацам:");
+    foreach (var error in uniqueErrors)
     {
-        Console.WriteLine(errorMessage);
+        Console.WriteLine(error); // Выводим уникальные ошибки
     }
 
+    // Выводим путь к результатам
     Console.WriteLine($"Проверка завершена. Результаты сохранены в:\n{outputPath}\n{reportPath}");
 }
 catch (Exception ex)
