@@ -6,91 +6,74 @@ namespace DocumentComplianceChecker_HSEproject.Services
 {
     public class AnnotationGenerator
     {
+        private const int ParagraphsPerPage = 50; // эвристика: 50 абзацев = 1 страница
+
         public void ApplyAnnotations(WordprocessingDocument doc, ValidationResult validationResult)
         {
             if (validationResult.Errors.Count == 0) return;
 
             var paragraphs = doc.MainDocumentPart.Document.Body.Elements<Paragraph>().ToList();
 
-            foreach (var error in validationResult.Errors)
+            // Группировка ошибок по "странице"
+            var errorsByPage = validationResult.Errors
+                .Where(e => e.ParagraphIndex >= 0 && e.ParagraphIndex < paragraphs.Count)
+                .GroupBy(e => e.ParagraphIndex / ParagraphsPerPage);
+
+            foreach (var pageGroup in errorsByPage)
             {
-                if (error.ParagraphIndex < paragraphs.Count)
-                {
-                    var paragraph = paragraphs[error.ParagraphIndex];
+                int pageIndex = pageGroup.Key;
+                var groupedErrors = pageGroup.ToList();
+                int representativeParagraphIndex = pageIndex * ParagraphsPerPage;
+                if (representativeParagraphIndex >= paragraphs.Count)
+                    representativeParagraphIndex = paragraphs.Count - 1;
 
-                    // 1. Подсветка конкретного текста с ошибкой
-                    if (!string.IsNullOrEmpty(error.ParagraphText))
-                    {
-                        HighlightText(paragraph, error.ParagraphText);
-                    }
+                var paragraph = paragraphs[representativeParagraphIndex];
 
-                    // 2. Добавление комментария
-                    AddComment(doc, paragraph, error);
-                }
+                // Создаём обобщённый текст ошибки по странице
+                var commentText = $"На странице {pageIndex + 1} найдены ошибки:\n" +
+                                  string.Join("\n", groupedErrors
+                                      .Select(e => $"- [{e.ErrorType}] {e.Message}")
+                                      .Distinct());
+
+                AddComment(doc, paragraph, commentText);
             }
         }
 
-        private void HighlightText(Paragraph paragraph, string errorText)
+        private void AddComment(WordprocessingDocument doc, Paragraph paragraph, string commentText)
         {
-            // Ищем только Run'ы, которые полностью совпадают с текстом ошибки
-            var exactMatchRuns = paragraph.Descendants<Run>()
-                .Where(r => r.InnerText.Trim() == errorText.Trim())
-                .ToList();
+            if (doc == null || doc.MainDocumentPart == null || paragraph == null || string.IsNullOrEmpty(commentText))
+                return;
 
-            foreach (var run in exactMatchRuns)
-            {
-                var runProperties = run.RunProperties ?? new RunProperties();
-                runProperties.Highlight = new Highlight() { Val = HighlightColorValues.Red };
-                run.RunProperties = runProperties;
-            }
-        }
-
-        private void AddComment(WordprocessingDocument doc, Paragraph paragraph, Error error)
-        {
-            if (doc == null || doc.MainDocumentPart == null || paragraph == null || string.IsNullOrEmpty(error.Message))
-            {
-                throw new ArgumentException("Invalid arguments passed to AddComment");
-            }
-
-            // Получаем или создаем часть для комментариев
-            var commentsPart = doc.MainDocumentPart.WordprocessingCommentsPart ??
-                doc.MainDocumentPart.AddNewPart<WordprocessingCommentsPart>();
+            var commentsPart = doc.MainDocumentPart.WordprocessingCommentsPart
+                ?? doc.MainDocumentPart.AddNewPart<WordprocessingCommentsPart>();
 
             commentsPart.Comments ??= new Comments();
 
-            // Создаем комментарий с типом ошибки
-            var comment = new Comment()
+            string commentId = GenerateUniqueCommentId(commentsPart);
+
+            var comment = new Comment
             {
-                Id = GenerateUniqueCommentId(commentsPart),
+                Id = commentId,
                 Author = "DocumentComplianceChecker",
+                Date = DateTime.Now
             };
-
-            comment.AppendChild(new Paragraph(
-                new Run(
-                    new Text($"{error.ErrorType}: {error.Message}")
-                )));
-
+            comment.AppendChild(new Paragraph(new Run(new Text(commentText))));
             commentsPart.Comments.AppendChild(comment);
 
-            // Привязываем комментарий к первому Run в параграфе
-            var firstRun = paragraph.Elements<Run>().FirstOrDefault();
-            if (firstRun != null)
-            {
-                paragraph.InsertBefore(new CommentRangeStart { Id = comment.Id }, firstRun);
-                paragraph.InsertAfter(new CommentRangeEnd { Id = comment.Id }, firstRun);
-                paragraph.AppendChild(new Run(new CommentReference { Id = comment.Id }));
-            }
+            var firstRun = paragraph.Elements<Run>().FirstOrDefault() ?? paragraph.AppendChild(new Run());
+            paragraph.InsertBefore(new CommentRangeStart { Id = commentId }, firstRun);
+            paragraph.InsertAfter(new CommentRangeEnd { Id = commentId }, firstRun);
+            paragraph.AppendChild(new Run(new CommentReference { Id = commentId }));
         }
 
         private static string GenerateUniqueCommentId(WordprocessingCommentsPart commentsPart)
         {
-            if (commentsPart?.Comments == null) return "1";
+            var maxId = commentsPart.Comments.Elements<Comment>()
+                .Select(c => int.TryParse(c.Id?.Value, out int val) ? val : 0)
+                .DefaultIfEmpty(0)
+                .Max();
 
-            return (commentsPart.Comments
-                .Elements<Comment>()
-                .Select(c => int.Parse(c.Id?.Value ?? "0"))
-                .DefaultIfEmpty()
-                .Max() + 1).ToString();
+            return (maxId + 1).ToString();
         }
     }
 }

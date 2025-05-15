@@ -60,20 +60,27 @@ namespace DocumentComplianceChecker_HSEproject.Services
         public void ExportReport(ValidationResult validationResult, string reportPath)
         {
             // Проверка на null
-            if (validationResult == null || validationResult.Errors == null)
+            if (validationResult == null || validationResult.Errors == null || validationResult.Errors.Count == 0)
             {
-                File.WriteAllText(reportPath, "Ошибки не найдены (null)");
+                File.WriteAllText(reportPath, "Ошибки не найдены.");
                 return;
             }
 
+            // Уникальные ошибки по типу и сообщению
+            var uniqueErrors = validationResult.Errors
+                .GroupBy(e => $"{e.ErrorType}|{e.Message}")
+                .Select(g => g.First())
+                .ToList();
+
             // Формируем содержимое отчета
-            var reportContent = $"Найдено ошибок: {validationResult.Errors.Count}\n" +
-                              string.Join("\n", validationResult.Errors.Select(e =>
-                                  $"- [{e.ErrorType}] {e.Message}\n" +
-                                  $"  Текст: {e.ParagraphText?.Trim() ?? "не указан"}"));
+            var reportContent = $"Уникальных ошибок: {uniqueErrors.Count}\n\n" +
+                string.Join("\n\n", uniqueErrors.Select(e =>
+                    $"- [{e.ErrorType}] {e.Message}\n" +
+                    $"  Пример: {e.ParagraphText?.Trim() ?? "не указан"}"));
 
             // Записываем в файл
             File.WriteAllText(reportPath, reportContent);
         }
+
     }
 }
