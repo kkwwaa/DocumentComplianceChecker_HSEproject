@@ -6,32 +6,64 @@ namespace DocumentComplianceChecker_HSEproject.Services
 {
     public class AnnotationGenerator
     {
-        private const int ParagraphsPerPage = 50; // эвристика: 50 абзацев = 1 страница
-
         public void ApplyAnnotations(WordprocessingDocument doc, ValidationResult validationResult)
         {
             if (validationResult.Errors.Count == 0) return;
 
             var paragraphs = doc.MainDocumentPart.Document.Body.Elements<Paragraph>().ToList();
+            List<int> pageStartParagraphIndices = new() { 0 }; // первая страница всегда начинается с первого абзаца
 
-            // Группировка ошибок по "странице"
+            for (int i = 0; i < paragraphs.Count; i++)
+            {
+                var para = paragraphs[i];
+
+                // 1. Вставлен ручной разрыв страницы: <w:br w:type="page"/>
+                bool hasPageBreak = para.Descendants<Break>().Any(b => b.Type?.Value == BreakValues.Page);
+
+                // 2. Свойство абзаца: <w:pageBreakBefore/>
+                bool hasPageBreakBefore = para.ParagraphProperties?.PageBreakBefore != null;
+
+                // 3. Раздел начинается с новой страницы: <w:sectPr><w:type w:val="nextPage"/>
+                bool hasSectionBreakWithNewPage = para.Descendants<SectionProperties>()
+                    .Any(sp => sp.GetFirstChild<SectionType>()?.Val?.Value == SectionMarkValues.NextPage);
+
+                if (hasPageBreak || hasPageBreakBefore || hasSectionBreakWithNewPage)
+                {
+                    // следующая страница начнётся со следующего абзаца
+                    if (i + 1 < paragraphs.Count)
+                        pageStartParagraphIndices.Add(i + 1);
+                }
+            }
+
+            // Функция определения номера страницы по индексу абзаца
+            int GetPageNumber(int paragraphIndex)
+            {
+                for (int i = pageStartParagraphIndices.Count - 1; i >= 0; i--)
+                {
+                    if (paragraphIndex >= pageStartParagraphIndices[i])
+                        return i + 1; // страницы нумеруются с 1
+                }
+                return 1;
+            }
+
+            // Группировка ошибок по номеру страницы
             var errorsByPage = validationResult.Errors
                 .Where(e => e.ParagraphIndex >= 0 && e.ParagraphIndex < paragraphs.Count)
-                .GroupBy(e => e.ParagraphIndex / ParagraphsPerPage);
+                .GroupBy(e => GetPageNumber(e.ParagraphIndex));
 
             foreach (var pageGroup in errorsByPage)
             {
                 int pageIndex = pageGroup.Key;
                 var groupedErrors = pageGroup.ToList();
-                int representativeParagraphIndex = pageIndex * ParagraphsPerPage;
-                if (representativeParagraphIndex >= paragraphs.Count)
-                    representativeParagraphIndex = paragraphs.Count - 1;
+
+                var representativeParagraphIndex = groupedErrors
+                    .Select(e => e.ParagraphIndex)
+                    .Where(i => i >= 0 && i < paragraphs.Count)
+                    .Min();
 
                 var paragraph = paragraphs[representativeParagraphIndex];
 
-                // Создаём обобщённый текст ошибки по странице
-                var commentText = $"На странице {pageIndex + 1} найдены ошибки:\n" +
-                                  string.Join("\n", groupedErrors
+                var commentText =      string.Join("\n", groupedErrors
                                       .Select(e => $"- [{e.ErrorType}] {e.Message}")
                                       .Distinct());
 

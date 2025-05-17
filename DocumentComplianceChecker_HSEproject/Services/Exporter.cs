@@ -81,6 +81,5 @@ namespace DocumentComplianceChecker_HSEproject.Services
             // Записываем в файл
             File.WriteAllText(reportPath, reportContent);
         }
-
     }
 }
