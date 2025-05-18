@@ -3,6 +3,7 @@ using DocumentComplianceChecker_HSEproject.Models;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml;
+using System.IO;
 
 namespace DocumentComplianceChecker_HSEproject.Services
 {
