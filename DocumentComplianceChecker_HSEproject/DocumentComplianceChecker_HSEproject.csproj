@@ -1,15 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+	<ItemGroup>
+		<COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
+			<WrapperTool>tlbimp</WrapperTool>
+			<VersionMinor>4</VersionMinor>
+			<VersionMajor>2</VersionMajor>
+			<Guid>215d64d2-031c-33c7-96e3-61794cd1ee61</Guid>
+		</COMReference>
+	</ItemGroup>
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
-  </ItemGroup>
-
+	<ItemGroup>
+		<PackageReference Include="DocumentFormat.OpenXml" Version="3.1.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
+	</ItemGroup>
 </Project>
