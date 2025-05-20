@@ -61,16 +61,11 @@ namespace DocumentComplianceChecker_HSEproject
                 {
                     rules = new List<IValidationRule>
                     {
-                        new BasicRules.ColorRule(),
-                        new BasicRules.FirstLineIndentRule(),
-                        new BasicRules.JustificationRule(),
-                        new BasicRules.LineSpacingRule(),
-                        new BasicRules.PageMarginRule(),
-                        new BasicRules.ParagraphSpacingRule(),
-                        new BasicRules.ParagraphStyleAndSizeRule(),
-                        new BasicRules.HeadingStartsNewPageRule(),
-                        new BasicRules.HeadingSpacingRule(),
-                        new BasicRules.Heading3NotInTOCRule()
+                        new BasicRules.NormalStyleRule(),
+                        new BasicRules.Heading1Rule(),
+                        new BasicRules.Heading2Rule(),
+                        new BasicRules.Heading3Rule(),
+                        new BasicRules.PageMarginRule()
                     };
                     // Добавляем список правил в DI контейнер
                     services.AddSingleton(rules);
