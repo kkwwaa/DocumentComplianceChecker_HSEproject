@@ -1,71 +1,177 @@
-﻿using DocumentComplianceChecker_HSEproject.Models;
+﻿using DocumentComplianceChecker_HSEproject.Interfaces;
 using DocumentFormat.OpenXml.Wordprocessing;
 
 internal class BasicRules
 {
-    internal class ColorRule : IValidationRule
+    internal abstract class StyleBasedRule : IValidationRule
     {
-        public string ErrorMessage { get; set; } = "Недопустимый цвет текста.";
-        public List<string> AllowedColors { get; set; } = new() { "auto", "000000" };
+        public abstract string ErrorMessage { get; }
+        public abstract bool RuleValidator(Paragraph paragraph, Run run = null);
 
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
+        protected string GetStyleId(Paragraph paragraph)
         {
-            var targetRun = run ?? paragraph.Elements<Run>().FirstOrDefault();
-            if (targetRun == null) return true;
+            return paragraph.ParagraphProperties?.ParagraphStyleId?.Val?.Value ?? "Normal";
+        }
 
-            var color = targetRun.RunProperties?.Color?.Val?.Value;
-            var effectiveColor = string.IsNullOrEmpty(color) ? "auto" : color;
-            return AllowedColors.Any(c =>
-                effectiveColor.Equals(c, StringComparison.OrdinalIgnoreCase));
+        protected Run GetTargetRun(Paragraph paragraph, Run run)
+        {
+            return run ?? paragraph.Elements<Run>().FirstOrDefault();
         }
     }
 
-    internal class FirstLineIndentRule : IValidationRule
+    internal class NormalStyleRule : StyleBasedRule
     {
-        public string ErrorMessage { get; set; } = "Неверный отступ первой строки.";
-        public double RequiredIndentInCm { get; set; } = 1.25;
+        public override string ErrorMessage => "Нарушения в обычном тексте.";
 
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
+        public override bool RuleValidator(Paragraph paragraph, Run run = null)
         {
-            var firstLineIndent = paragraph.ParagraphProperties?.Indentation?.FirstLine;
-            if (firstLineIndent == null) return false;
+            var styleId = GetStyleId(paragraph);
+            Console.WriteLine($"[NormalStyleRule] Стиль параграфа: {styleId}");
 
-            if (!double.TryParse(firstLineIndent.Value, out var indentTwips)) return false;
-            var indentInCm = indentTwips / 567.0;
-            return Math.Abs(indentInCm - RequiredIndentInCm) < 0.1;
+            if (styleId != "Normal") return true;
+
+            var props = paragraph.ParagraphProperties;
+            var runProps = GetTargetRun(paragraph, run)?.RunProperties;
+            if (props == null || runProps == null) return false;
+
+            // Шрифт
+            var font = runProps.RunFonts?.Ascii?.Value;
+            var sizeStr = runProps.FontSize?.Val?.Value;
+            if (!int.TryParse(sizeStr, out var sizeHalfPt)) return false;
+            double sizePt = sizeHalfPt / 2.0;
+            if (font != "Times New Roman" || Math.Abs(sizePt - 13) > 0.1) return false;
+
+            // Межстрочный интервал
+            var spacing = props.SpacingBetweenLines;
+            if (spacing?.Line == null || !int.TryParse(spacing.Line.Value, out var lineVal)) return false;
+            if (Math.Abs(lineVal / 20.0 - 18.0) > 1.0) return false;
+
+            // Красная строка
+            var indent = props.Indentation?.FirstLine;
+            if (!double.TryParse(indent, out var indentTwips) || Math.Abs(indentTwips / 567.0 - 1.25) > 0.1) return false;
+
+            // Выравнивание
+            var justification = props.Justification?.Val;
+            if (justification != JustificationValues.Both) return false;
+
+            // Параметры абзацев
+            bool leftOk = props.Indentation?.Left == null || props.Indentation.Left.Value == "0";
+            bool rightOk = props.Indentation?.Right == null || props.Indentation.Right.Value == "0";
+            bool beforeOk = spacing.Before == null || spacing.Before.Value == "0";
+            bool afterOk = spacing.After == null || spacing.After.Value == "0";
+
+            return leftOk && rightOk && beforeOk && afterOk;
         }
     }
 
-    internal class JustificationRule : IValidationRule
+    internal class Heading1Rule : StyleBasedRule
     {
-        public string ErrorMessage { get; set; } = "Недопустимое выравнивание.";
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
+        public override string ErrorMessage => "Нарушения в заголовке 1 уровня.";
+
+        public override bool RuleValidator(Paragraph paragraph, Run run = null)
         {
-            var justification = paragraph.ParagraphProperties?.Justification?.Val;
-            return justification != null && justification == JustificationValues.Both;
+            var styleId = GetStyleId(paragraph);
+            Console.WriteLine($"[Heading1Rule] Стиль параграфа: {styleId}");
+
+            if (styleId != "2") return true;
+            var props = paragraph.ParagraphProperties;
+            var runProps = GetTargetRun(paragraph, run)?.RunProperties;
+            if (props == null || runProps == null) return false;
+
+            // Шрифт и размер
+            var font = runProps.RunFonts?.Ascii?.Value;
+            var sizeStr = runProps.FontSize?.Val?.Value;
+            if (!int.TryParse(sizeStr, out var sizeHalfPt)) return false;
+            double sizePt = sizeHalfPt / 2.0;
+            if (font != "Times New Roman" || Math.Abs(sizePt - 16) > 0.1 || runProps.Bold == null) return false;
+
+            // Интервалы до и после
+            var spacing = props.SpacingBetweenLines;
+            if (spacing == null) return false;
+            int before = int.TryParse(spacing.Before?.Value, out var b) ? b : 0;
+            int after = int.TryParse(spacing.After?.Value, out var a) ? a : 0;
+            if (before != 240 || after != 60) return false;
+
+            // Нет абзацного отступа
+            var indent = props.Indentation?.FirstLine;
+            if (!string.IsNullOrEmpty(indent) && indent != "0") return false;
+
+            // Начало с новой страницы
+            return props.PageBreakBefore != null;
         }
     }
 
-    internal class LineSpacingRule : IValidationRule
+    internal class Heading2Rule : StyleBasedRule
     {
-        public string ErrorMessage { get; set; } = "Межстрочный интервал должен быть 1.5.";
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
-        {
-            var spacing = paragraph.ParagraphProperties?.SpacingBetweenLines;
-            if (spacing?.Line == null) return false;
+        public override string ErrorMessage => "Нарушения в заголовке 2 уровня.";
 
-            if (int.TryParse(spacing.Line.Value, out int lineValue))
-            {
-                double actualSpacing = lineValue / 20.0;
-                return Math.Abs(actualSpacing - 18.0) < 1.0; // 1.5 * 12 = 18 pt
-            }
-            return false;
+        public override bool RuleValidator(Paragraph paragraph, Run run = null)
+        {
+            var styleId = GetStyleId(paragraph);
+            Console.WriteLine($"[Heading2Rule] Стиль параграфа: {styleId}");
+
+            if (styleId != "3") return true;
+            var props = paragraph.ParagraphProperties;
+            var runProps = GetTargetRun(paragraph, run)?.RunProperties;
+            if (props == null || runProps == null) return false;
+
+            var font = runProps.RunFonts?.Ascii?.Value;
+            var sizeStr = runProps.FontSize?.Val?.Value;
+            if (!int.TryParse(sizeStr, out var sizeHalfPt)) return false;
+            double sizePt = sizeHalfPt / 2.0;
+            if (font != "Times New Roman" || Math.Abs(sizePt - 14) > 0.1 || runProps.Bold == null) return false;
+
+            var spacing = props.SpacingBetweenLines;
+            if (spacing == null) return false;
+            int before = int.TryParse(spacing.Before?.Value, out var b) ? b : 0;
+            int after = int.TryParse(spacing.After?.Value, out var a) ? a : 0;
+            if (before != 180 || after != 60) return false;
+
+            var indent = props.Indentation?.FirstLine;
+            return string.IsNullOrEmpty(indent) || indent == "0";
+        }
+    }
+
+    internal class Heading3Rule : StyleBasedRule
+    {
+        public override string ErrorMessage => "Нарушения в заголовке 3 уровня.";
+
+        public override bool RuleValidator(Paragraph paragraph, Run run = null)
+        {
+            var styleId = GetStyleId(paragraph);
+            Console.WriteLine($"[Heading3Rule] Стиль параграфа: {styleId}");
+
+            if (styleId != "4") return true;
+            var props = paragraph.ParagraphProperties;
+            var runProps = GetTargetRun(paragraph, run)?.RunProperties;
+            if (props == null || runProps == null) return false;
+
+            var font = runProps.RunFonts?.Ascii?.Value;
+            var sizeStr = runProps.FontSize?.Val?.Value;
+            if (!int.TryParse(sizeStr, out var sizeHalfPt)) return false;
+            double sizePt = sizeHalfPt / 2.0;
+            if (font != "Times New Roman" || Math.Abs(sizePt - 13) > 0.1 || runProps.Bold == null) return false;
+
+            var spacing = props.SpacingBetweenLines;
+            if (spacing == null) return false;
+            int before = int.TryParse(spacing.Before?.Value, out var b) ? b : 0;
+            int after = int.TryParse(spacing.After?.Value, out var a) ? a : 0;
+            if (before != 120 || after != 40) return false;
+
+            var indent = props.Indentation?.FirstLine;
+            if (!string.IsNullOrEmpty(indent) && indent != "0") return false;
+
+            // Не входит в оглавление
+            var isInTOC = paragraph.Ancestors<SdtBlock>()
+                .Any(sdt => sdt.SdtProperties?.GetFirstChild<Tag>()?.Val?.Value == "TOC");
+
+            return !isInTOC;
         }
     }
 
     internal class PageMarginRule : IValidationRule
     {
-        public string ErrorMessage { get; set; } = "Неверные поля страницы.";
+        public string ErrorMessage => "Неверные поля страницы.";
         private static int CmToTwips(double cm) => (int)(cm * 567);
 
         public bool RuleValidator(Paragraph paragraph, Run run = null)
@@ -87,110 +193,4 @@ internal class BasicRules
                 && margin.Footer == CmToTwips(1.25);
         }
     }
-
-    internal class ParagraphSpacingRule : IValidationRule
-    {
-        public string ErrorMessage { get; set; } = "Недопустимые отступы абзаца.";
-
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
-        {
-            var props = paragraph.ParagraphProperties;
-            var indent = props?.Indentation;
-            var spacing = props?.SpacingBetweenLines;
-
-            bool leftOk = indent?.Left == null || indent.Left.Value == "0";
-            bool rightOk = indent?.Right == null || indent.Right.Value == "0";
-            bool beforeOk = spacing?.Before == null || spacing.Before.Value == "0";
-            bool afterOk = spacing?.After == null || spacing.After.Value == "0";
-
-            return leftOk && rightOk && beforeOk && afterOk;
-        }
-    }
-
-    internal class ParagraphStyleAndSizeRule : IValidationRule
-    {
-        public string ErrorMessage { get; set; } = "Неверный стиль или размер текста.";
-
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
-        {
-            string styleId = paragraph.ParagraphProperties?.ParagraphStyleId?.Val?.Value;
-            var targetRun = run ?? paragraph.Elements<Run>().FirstOrDefault();
-            if (targetRun?.RunProperties == null) return false;
-
-            var fontName = targetRun.RunProperties.RunFonts?.Ascii?.Value;
-            var sizeStr = targetRun.RunProperties.FontSize?.Val?.Value;
-            var isBold = targetRun.RunProperties.Bold != null;
-
-            if (!int.TryParse(sizeStr, out int sizeHalfPt)) return false;
-            double sizePt = sizeHalfPt / 2.0;
-
-            // Проверка обычного текста
-            if (string.IsNullOrEmpty(styleId) || styleId == "Normal")
-                return fontName == "Times New Roman" && Math.Abs(sizePt - 13) < 0.1 && !isBold;
-
-            // Заголовки
-            return styleId switch
-            {
-                "Heading1" => fontName == "Times New Roman" && isBold && Math.Abs(sizePt - 16) < 0.1,
-                "Heading2" => fontName == "Times New Roman" && isBold && Math.Abs(sizePt - 14) < 0.1,
-                "Heading3" => fontName == "Times New Roman" && isBold && Math.Abs(sizePt - 13) < 0.1,
-                _ => false,
-            };
-        }
-    }
-
-    internal class HeadingStartsNewPageRule : IValidationRule
-    {
-        public string ErrorMessage { get; set; } = "Заголовок первого уровня должен начинаться с новой страницы.";
-
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
-        {
-            string styleId = paragraph.ParagraphProperties?.ParagraphStyleId?.Val?.Value;
-            if (styleId != "Heading1") return true;
-
-            var breakBefore = paragraph.ParagraphProperties?.PageBreakBefore;
-            return breakBefore != null;
-        }
-    }
-
-    internal class HeadingSpacingRule : IValidationRule
-    {
-        public string ErrorMessage { get; set; } = "Неверные интервалы до/после заголовка.";
-
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
-        {
-            string styleId = paragraph.ParagraphProperties?.ParagraphStyleId?.Val?.Value;
-            if (styleId == null) return true;
-
-            var spacing = paragraph.ParagraphProperties?.SpacingBetweenLines;
-            if (spacing == null) return false;
-
-            var before = spacing.Before != null ? int.Parse(spacing.Before.Value) : 0;
-            var after = spacing.After != null ? int.Parse(spacing.After.Value) : 0;
-
-            return styleId switch
-            {
-                "Heading1" => before == 240 && after == 60, // 12pt, 3pt
-                "Heading2" => before == 180 && after == 60, // 9pt, 3pt
-                "Heading3" => before == 120 && after == 40, // 6pt, 2pt
-                _ => true
-            };
-        }
-    }
-
-    internal class Heading3NotInTOCRule : IValidationRule
-    {
-        public string ErrorMessage { get; set; } = "Заголовки третьего уровня не должны отображаться в оглавлении.";
-
-        public bool RuleValidator(Paragraph paragraph, Run run = null)
-        {
-            // Определим, относится ли параграф к TOC
-            string styleId = paragraph.ParagraphProperties?.ParagraphStyleId?.Val?.Value;
-            if (styleId == null || !styleId.StartsWith("TOC")) return true;
-
-            // Просто проверяем, если это заголовок 3 уровня
-            return paragraph.InnerText.Contains("3 ");
-        }
-    }
-
 }

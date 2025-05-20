@@ -1,10 +1,10 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 
-namespace DocumentComplianceChecker_HSEproject.Models
+namespace DocumentComplianceChecker_HSEproject.Interfaces
 {
     public interface IValidationRule
     {
-        string ErrorMessage { get; set; }
+        string ErrorMessage { get; }
         bool RuleValidator(Paragraph paragraph, Run run = null);
     }
 }
