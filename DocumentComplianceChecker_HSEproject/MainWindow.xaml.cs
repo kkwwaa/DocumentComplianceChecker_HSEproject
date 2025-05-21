@@ -1,8 +1,8 @@
 ﻿using DocumentComplianceChecker_HSEproject.Interfaces;
 using DocumentComplianceChecker_HSEproject.Models;
-//using DocumentComplianceChecker_HSEproject.Rules;
+using DocumentComplianceChecker_HSEproject.Rules;
 using DocumentComplianceChecker_HSEproject.Services;
-//using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using System.Diagnostics;
@@ -13,13 +13,11 @@ using System.Windows.Controls;
 
 namespace DocumentComplianceChecker_HSEproject
 {
-    //using MyValidationRule = DocumentComplianceChecker_HSEproject.Models.ValidationRule;
     using MyValidationResult = DocumentComplianceChecker_HSEproject.Models.ValidationResult;
 
     public partial class MainWindow : Window
     {
         private readonly IServiceProvider provider;
-        List<IValidationRule> rules = null;
         private bool useTemplate;
         private const string HelpFileName = "CHM_DocumentComplianceChecker.chm"; // Относительный путь
 
@@ -36,8 +34,28 @@ namespace DocumentComplianceChecker_HSEproject
             services.AddSingleton<IFileManager, FileManager>();
             services.AddTransient<IDocumentLoader, DocumentLoader>();
             services.AddTransient<IExporter, Exporter>();
-            services.AddTransient<IFormattingValidator, FormattingValidator>();
             services.AddTransient<AnnotationGenerator>();
+
+            // Регистрируем FormattingValidator с двумя списками правил
+            services.AddScoped<IFormattingValidator>(provider =>
+            {
+                var paragraphRules = new List<IParagraphValidationRule>
+                {
+                    new NormalStyleRule(),
+                    new Heading1Rule(),
+                    new Heading2Rule(),
+                    new Heading3Rule(),
+                    new PageMarginRule()
+                };
+                var runRules = new List<IRunValidationRule>
+                {
+                    new NormalStyleRule(),
+                    new Heading1Rule(),
+                    new Heading2Rule(),
+                    new Heading3Rule()
+                };
+                return new FormattingValidator(paragraphRules, runRules);
+            });
         }
 
         private void CheckDocument_Click(object sender, RoutedEventArgs e)
@@ -57,20 +75,6 @@ namespace DocumentComplianceChecker_HSEproject
                     var template = new Template(); // Создаём объект шаблона
                     services.AddSingleton(template); // Добавляем шаблон в DI контейнер
                 }
-                else
-                {
-                    rules = new List<IValidationRule>
-                    {
-                        new BasicRules.NormalStyleRule(),
-                        new BasicRules.Heading1Rule(),
-                        new BasicRules.Heading2Rule(),
-                        new BasicRules.Heading3Rule(),
-                        new BasicRules.PageMarginRule()
-                    };
-                    // Добавляем список правил в DI контейнер
-                    services.AddSingleton(rules);
-                }
-
 
                 // Строим провайдер для получения зависимостей
                 var provider = services.BuildServiceProvider();
@@ -112,16 +116,18 @@ namespace DocumentComplianceChecker_HSEproject
 
                 if (useTemplate)
                 {
-                    var template = provider.GetRequiredService<Template>(); // Получаем шаблон из DI
-                    var formatter = new FormattingTemplate(template); // Создаем объект для валидации с использованием шаблона
-                    
-                    validationResult = formatter.ValidateDocument(doc);
+                    var validator = provider.GetRequiredService<IFormattingValidator>();
+                    validationResult = validator.Validate(doc);
+                    //var template = provider.GetRequiredService<Template>(); // Получаем шаблон из DI
+                    //var formatter = new FormattingTemplate(template); // Создаем объект для валидации с использованием шаблона
 
-                    // Проходим по всем ошибкам
-                    foreach (var error in validationResult.Errors)
-                    {
-                        uniqueErrors.Add(error.Message); // Собираем уникальные ошибки
-                    }
+                    //validationResult = formatter.ValidateDocument(doc);
+
+                    //// Проходим по всем ошибкам
+                    //foreach (var error in validationResult.Errors)
+                    //{
+                    //    uniqueErrors.Add(error.Message); // Собираем уникальные ошибки
+                    //}
                 }
                 else
                 {

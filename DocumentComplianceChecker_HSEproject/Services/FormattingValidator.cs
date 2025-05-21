@@ -8,16 +8,18 @@ namespace DocumentComplianceChecker_HSEproject.Services
     // Класс, реализующий интерфейс IFormattingValidator, отвечает за проверку форматирования документа
     public class FormattingValidator : IFormattingValidator
     {
-        // Список правил форматирования, которые будут применяться к каждому элементу документа
-        private readonly List<IValidationRule> _rules;
+        // Список правил форматирования, разделённых на два типа
+        private readonly List<IParagraphValidationRule> _paragraphRules;
+        private readonly List<IRunValidationRule> _runRules;
 
-        // Конструктор: принимает список правил и сохраняет для использования валидации
-        public FormattingValidator(List<IValidationRule> rules)
+        // Конструктор: принимает списки правил и сохраняет для использования валидации
+        public FormattingValidator(List<IParagraphValidationRule> paragraphRules, List<IRunValidationRule> runRules)
         {
-            _rules = rules;
+            _paragraphRules = paragraphRules ?? new List<IParagraphValidationRule>();
+            _runRules = runRules ?? new List<IRunValidationRule>();
         }
 
-        // Метод валидации: обходит все абзацы документа и применяет к каждому Run все правила
+        // Метод валидации: обходит все абзацы документа и применяет правила
         public ValidationResult Validate(WordprocessingDocument doc)
         {
             // Результат проверки, куда будут собираться ошибки
@@ -29,21 +31,40 @@ namespace DocumentComplianceChecker_HSEproject.Services
             // Проходим по каждому абзацу
             for (int i = 0; i < paragraphs.Count; i++)
             {
-                var paragraph = paragraphs[i];
+                var paragraph = paragraphs[i]; // Текущий параграф
 
-                // Извлекаем все Run'ы (фрагменты текста с оформлением) из текущего абзаца
+                // Проверка правил для параграфа
+                foreach (var rule in _paragraphRules)
+                {
+                    if (!rule.ValidateParagraph(paragraph))
+                    {
+                        // Выводим текст первого Run для отладки (если есть)
+                        var firstRun = paragraph.Elements<Run>().FirstOrDefault();
+                        Console.WriteLine(GetRunText(firstRun));
+
+                        // Добавляем информацию об ошибке в результат
+                        result.Errors.Add(new Error
+                        {
+                            ErrorType = rule.GetType().Name,        // Тип правила, вызвавшего ошибку
+                            Message = rule.ErrorMessage,           // Сообщение об ошибке
+                            ParagraphText = GetRunText(firstRun),  // Текст первого Run
+                            ParagraphIndex = i,                    // Индекс абзаца
+                            TargetRun = firstRun                   // Ссылка на первый Run
+                        });
+                    }
+                }
+
+                // Извлекаем все Run из текущего абзаца
                 var runs = paragraph.Elements<Run>().ToList();
 
                 // Проверяем каждый Run в данном абзаце
                 foreach (var run in runs)
                 {
-                    // Применяем каждое правило к текущему Run (и параграфу, если необходимо)
-                    foreach (var rule in _rules)
+                    foreach (var rule in _runRules)
                     {
-                        // Если правило не выполнено
-                        if (!rule.RuleValidator(paragraph, run))
+                        if (!rule.ValidateRun(paragraph, run))
                         {
-                            // Выводим текст Run'а в консоль для отладки
+                            // Выводим текст Run для отладки
                             Console.WriteLine(GetRunText(run));
 
                             // Добавляем информацию об ошибке в результат
@@ -51,8 +72,8 @@ namespace DocumentComplianceChecker_HSEproject.Services
                             {
                                 ErrorType = rule.GetType().Name,        // Тип правила, вызвавшего ошибку
                                 Message = rule.ErrorMessage,           // Сообщение об ошибке
-                                ParagraphText = GetRunText(run),       // Текст, в котором обнаружена ошибка
-                                ParagraphIndex = i,                    // Индекс абзаца, в котором ошибка
+                                ParagraphText = GetRunText(run),       // Текст Run
+                                ParagraphIndex = i,                    // Индекс абзаца
                                 TargetRun = run                        // Ссылка на проблемный Run
                             });
                         }
@@ -67,7 +88,7 @@ namespace DocumentComplianceChecker_HSEproject.Services
         // Вспомогательный метод: извлекает объединённый текст из всех Text-элементов внутри Run
         private string GetRunText(Run run)
         {
-            return string.Concat(run.Elements<Text>().Select(t => t.Text));
+            return run != null ? string.Concat(run.Elements<Text>().Select(t => t.Text)) : string.Empty;
         }
     }
 }

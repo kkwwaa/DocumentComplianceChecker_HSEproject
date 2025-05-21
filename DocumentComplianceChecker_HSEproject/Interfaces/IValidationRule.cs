@@ -2,9 +2,17 @@
 
 namespace DocumentComplianceChecker_HSEproject.Interfaces
 {
-    public interface IValidationRule
+    // Интерфейс для проверки свойств параграфа (выравнивание, отступы и т.д.)
+    public interface IParagraphValidationRule
     {
         string ErrorMessage { get; }
-        bool RuleValidator(Paragraph paragraph, Run run = null);
+        bool ValidateParagraph(Paragraph paragraph);
+    }
+
+    // Интерфейс для проверки свойств Run (шрифт, размер и т.д.)
+    public interface IRunValidationRule
+    {
+        string ErrorMessage { get; }
+        bool ValidateRun(Paragraph paragraph, Run run);
     }
 }
