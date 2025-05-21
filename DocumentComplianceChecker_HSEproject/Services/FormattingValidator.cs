@@ -22,66 +22,79 @@ namespace DocumentComplianceChecker_HSEproject.Services
         // Метод валидации: обходит все абзацы документа и применяет правила
         public ValidationResult Validate(WordprocessingDocument doc)
         {
-            // Результат проверки, куда будут собираться ошибки
             var result = new ValidationResult();
+            if (doc?.MainDocumentPart?.Document?.Body == null)
+            {
+                Console.WriteLine("Validate: Document body is null or invalid.");
+                return result;
+            }
 
-            // Получаем все абзацы из основного тела документа
             var paragraphs = doc.MainDocumentPart.Document.Body.Elements<Paragraph>().ToList();
+            Console.WriteLine($"Validate: Found {paragraphs.Count} paragraphs.");
 
-            // Проходим по каждому абзацу
             for (int i = 0; i < paragraphs.Count; i++)
             {
-                var paragraph = paragraphs[i]; // Текущий параграф
+                var paragraph = paragraphs[i];
+                Console.WriteLine($"Validate: Processing paragraph {i}");
 
-                // Проверка правил для параграфа
                 foreach (var rule in _paragraphRules)
                 {
+                    Console.WriteLine($"Validate: Applying paragraph rule {rule.GetType().Name}");
                     if (!rule.ValidateParagraph(paragraph))
                     {
-                        // Выводим текст первого Run для отладки (если есть)
                         var firstRun = paragraph.Elements<Run>().FirstOrDefault();
-                        Console.WriteLine(GetRunText(firstRun));
-
-                        // Добавляем информацию об ошибке в результат
-                        result.Errors.Add(new Error
+                        if (firstRun != null)
                         {
-                            ErrorType = rule.GetType().Name,        // Тип правила, вызвавшего ошибку
-                            Message = rule.ErrorMessage,           // Сообщение об ошибке
-                            ParagraphText = GetRunText(firstRun),  // Текст первого Run
-                            ParagraphIndex = i,                    // Индекс абзаца
-                            TargetRun = firstRun                   // Ссылка на первый Run
-                        });
+                            var runText = GetRunText(firstRun);
+                            Console.WriteLine($"Validate: First Run text: {runText}");
+                            result.Errors.Add(new Error
+                            {
+                                ErrorType = rule.GetType().Name,
+                                Message = rule.ErrorMessage,
+                                ParagraphText = runText,
+                                ParagraphIndex = i,
+                                TargetRun = firstRun
+                            });
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Validate: Paragraph {i} has no Runs, skipping annotation.");
+                            result.Errors.Add(new Error
+                            {
+                                ErrorType = rule.GetType().Name,
+                                Message = rule.ErrorMessage,
+                                ParagraphText = "No Runs in paragraph",
+                                ParagraphIndex = i,
+                                TargetRun = null
+                            });
+                        }
                     }
                 }
 
-                // Извлекаем все Run из текущего абзаца
                 var runs = paragraph.Elements<Run>().ToList();
-
-                // Проверяем каждый Run в данном абзаце
+                Console.WriteLine($"Validate: Found {runs.Count} Runs in paragraph {i}");
                 foreach (var run in runs)
                 {
                     foreach (var rule in _runRules)
                     {
+                        Console.WriteLine($"Validate: Applying Run rule {rule.GetType().Name} to Run");
                         if (!rule.ValidateRun(paragraph, run))
                         {
-                            // Выводим текст Run для отладки
-                            Console.WriteLine(GetRunText(run));
-
-                            // Добавляем информацию об ошибке в результат
+                            var runText = GetRunText(run);
+                            Console.WriteLine($"Validate: Run text: {runText}");
                             result.Errors.Add(new Error
                             {
-                                ErrorType = rule.GetType().Name,        // Тип правила, вызвавшего ошибку
-                                Message = rule.ErrorMessage,           // Сообщение об ошибке
-                                ParagraphText = GetRunText(run),       // Текст Run
-                                ParagraphIndex = i,                    // Индекс абзаца
-                                TargetRun = run                        // Ссылка на проблемный Run
+                                ErrorType = rule.GetType().Name,
+                                Message = rule.ErrorMessage,
+                                ParagraphText = runText,
+                                ParagraphIndex = i,
+                                TargetRun = run
                             });
                         }
                     }
                 }
             }
-
-            // Возвращаем итог со всеми найденными ошибками
+            Console.WriteLine("Validate: Validation completed.");
             return result;
         }
 
