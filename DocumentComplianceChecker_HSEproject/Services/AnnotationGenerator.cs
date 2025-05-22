@@ -11,61 +11,21 @@ namespace DocumentComplianceChecker_HSEproject.Services
             if (validationResult.Errors.Count == 0) return;
 
             var paragraphs = doc.MainDocumentPart.Document.Body.Elements<Paragraph>().ToList();
-            List<int> pageStartParagraphIndices = new() { 0 }; // первая страница всегда начинается с первого абзаца
 
-            for (int i = 0; i < paragraphs.Count; i++)
-            {
-                var para = paragraphs[i];
-
-                // 1. Вставлен ручной разрыв страницы: <w:br w:type="page"/>
-                bool hasPageBreak = para.Descendants<Break>().Any(b => b.Type?.Value == BreakValues.Page);
-
-                // 2. Свойство абзаца: <w:pageBreakBefore/>
-                bool hasPageBreakBefore = para.ParagraphProperties?.PageBreakBefore != null;
-
-                // 3. Раздел начинается с новой страницы: <w:sectPr><w:type w:val="nextPage"/>
-                bool hasSectionBreakWithNewPage = para.Descendants<SectionProperties>()
-                    .Any(sp => sp.GetFirstChild<SectionType>()?.Val?.Value == SectionMarkValues.NextPage);
-
-                if (hasPageBreak || hasPageBreakBefore || hasSectionBreakWithNewPage)
-                {
-                    // следующая страница начнётся со следующего абзаца
-                    if (i + 1 < paragraphs.Count)
-                        pageStartParagraphIndices.Add(i + 1);
-                }
-            }
-
-            // Функция определения номера страницы по индексу абзаца
-            int GetPageNumber(int paragraphIndex)
-            {
-                for (int i = pageStartParagraphIndices.Count - 1; i >= 0; i--)
-                {
-                    if (paragraphIndex >= pageStartParagraphIndices[i])
-                        return i + 1; // страницы нумеруются с 1
-                }
-                return 1;
-            }
-
-            // Группировка ошибок по номеру страницы
-            var errorsByPage = validationResult.Errors
+            // Группировка ошибок по параграфам
+            var errorsByParagraph = validationResult.Errors
                 .Where(e => e.ParagraphIndex >= 0 && e.ParagraphIndex < paragraphs.Count)
-                .GroupBy(e => GetPageNumber(e.ParagraphIndex));
+                .GroupBy(e => e.ParagraphIndex);
 
-            foreach (var pageGroup in errorsByPage)
+            foreach (var paragraphGroup in errorsByParagraph)
             {
-                int pageIndex = pageGroup.Key;
-                var groupedErrors = pageGroup.ToList();
+                int paragraphIndex = paragraphGroup.Key;
+                var paragraph = paragraphs[paragraphIndex];
+                var groupedErrors = paragraphGroup.ToList();
 
-                var representativeParagraphIndex = groupedErrors
-                    .Select(e => e.ParagraphIndex)
-                    .Where(i => i >= 0 && i < paragraphs.Count)
-                    .Min();
-
-                var paragraph = paragraphs[representativeParagraphIndex];
-
-                var commentText =      string.Join("\n", groupedErrors
-                                      .Select(e => $"- [{e.ErrorType}] {e.Message}")
-                                      .Distinct());
+                var commentText = $"Параграф {paragraphIndex + 1}:\n" + string.Join("\n", groupedErrors
+                    .Select(e => $"- [{e.ErrorType}] {e.Message}")
+                    .Distinct());
 
                 AddComment(doc, paragraph, commentText);
             }
@@ -78,7 +38,6 @@ namespace DocumentComplianceChecker_HSEproject.Services
 
             var commentsPart = doc.MainDocumentPart.WordprocessingCommentsPart
                 ?? doc.MainDocumentPart.AddNewPart<WordprocessingCommentsPart>();
-
             commentsPart.Comments ??= new Comments();
 
             string commentId = GenerateUniqueCommentId(commentsPart);
@@ -92,10 +51,18 @@ namespace DocumentComplianceChecker_HSEproject.Services
             comment.AppendChild(new Paragraph(new Run(new Text(commentText))));
             commentsPart.Comments.AppendChild(comment);
 
-            var firstRun = paragraph.Elements<Run>().FirstOrDefault() ?? paragraph.AppendChild(new Run());
+            var firstRun = paragraph.Elements<Run>().FirstOrDefault();
+            if (firstRun == null)
+            {
+                firstRun = new Run(new Text(""));
+                paragraph.AppendChild(firstRun);
+            }
+
             paragraph.InsertBefore(new CommentRangeStart { Id = commentId }, firstRun);
             paragraph.InsertAfter(new CommentRangeEnd { Id = commentId }, firstRun);
-            paragraph.AppendChild(new Run(new CommentReference { Id = commentId }));
+            paragraph.InsertAfter(new Run(new CommentReference { Id = commentId }), firstRun);
+
+            commentsPart.Comments.Save();
         }
 
         private static string GenerateUniqueCommentId(WordprocessingCommentsPart commentsPart)

@@ -31,8 +31,6 @@ namespace DocumentComplianceChecker_HSEproject.Rules
             if (margin.Bottom != CmToTwips(2.0)) return false;
             if (margin.Left != CmToTwips(3.0)) return false;
             if (margin.Right != CmToTwips(1.5)) return false;
-            if (margin.Header != CmToTwips(1.5)) return false;
-            if (margin.Footer != CmToTwips(1.25)) return false;
 
             return true;
         }
