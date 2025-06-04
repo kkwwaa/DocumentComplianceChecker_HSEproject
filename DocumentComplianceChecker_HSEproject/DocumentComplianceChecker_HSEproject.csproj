@@ -20,4 +20,10 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Windows.Compatibility" Version="9.0.4" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="CHM_DocumentComplianceChecker.chm">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
 </Project>
