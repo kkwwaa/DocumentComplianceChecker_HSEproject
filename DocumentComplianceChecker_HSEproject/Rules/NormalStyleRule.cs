@@ -1,5 +1,4 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
-using DocumentComplianceChecker_HSEproject.Interfaces;
 using System.Text;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
