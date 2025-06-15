@@ -1,5 +1,4 @@
 ﻿using System;
-Style&Review
 using System.Linq;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -7,7 +6,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
     // Класс для валидации стиля "Heading 1", реализует оба интерфейса
-    internal class Heading1Rule : StyleBasedRule
+    internal class Heading1Rule : BasicRules
     {
         // Сообщение об ошибке, используется в ValidationResult
         public override string ErrorMessage => "Нарушения в заголовке 1 уровня.";

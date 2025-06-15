@@ -1,10 +1,9 @@
-Style&Review
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System.Text;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
-    internal class NormalStyleRule : StyleBasedRule
+    internal class NormalStyleRule : BasicRules
     {
         private readonly StringBuilder _errorMessages = new StringBuilder();
 

@@ -2,7 +2,7 @@
 using DocumentFormat.OpenXml.Wordprocessing; // Подключаем библиотеку OpenXML для работы с Word-документами
 
 // Абстрактный базовый класс для правил валидации, реализующий оба интерфейса
-internal abstract class StyleBasedRule : IParagraphValidationRule, IRunValidationRule
+internal abstract class BasicRules : IParagraphValidationRule, IRunValidationRule
 {
     // Абстрактное свойство для сообщения об ошибке, реализуется в дочерних классах
     public abstract string ErrorMessage { get; }

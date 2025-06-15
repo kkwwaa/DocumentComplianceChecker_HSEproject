@@ -7,7 +7,6 @@ using DocumentComplianceChecker_HSEproject.Rules;
 using DocumentComplianceChecker_HSEproject.Services;
 using System.IO;
 using DocumentFormat.OpenXml;
-using static BasicRules;
 
 namespace DocumentComplianceChecker_HSEproject.Specs.Steps
 {
@@ -92,8 +91,8 @@ namespace DocumentComplianceChecker_HSEproject.Specs.Steps
                         runRules.Add(new Heading3Rule());
                         break;
                     case "NormalStyleRule":
-                        paragraphRules.Add(new BasicRules.NormalStyleRule());
-                        runRules.Add(new BasicRules.NormalStyleRule());
+                        paragraphRules.Add(new NormalStyleRule());
+                        runRules.Add(new NormalStyleRule());
                         break;
                 }
             }

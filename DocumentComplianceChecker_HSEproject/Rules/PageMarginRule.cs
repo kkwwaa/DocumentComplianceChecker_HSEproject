@@ -1,5 +1,4 @@
-Style&Review
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentComplianceChecker_HSEproject.Interfaces;
 
 namespace DocumentComplianceChecker_HSEproject.Rules

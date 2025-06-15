@@ -1,10 +1,9 @@
-Style&Review
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
     // Класс для валидации стиля "Heading 2", реализует оба интерфейса
-    internal class Heading2Rule : StyleBasedRule
+    internal class Heading2Rule : BasicRules
     {
         public override string ErrorMessage => "Нарушения в заголовке 2 уровня.";
 
