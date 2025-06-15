@@ -15,16 +15,4 @@ namespace DocumentComplianceChecker_HSEproject.Interfaces
         /// <returns>Результат валидации с коллекцией ошибок</returns>
         ValidationResult Validate(WordprocessingDocument doc);
     }
-
-    /// <summary>
-    /// Интерфейс фабрики для создания валидатора
-    /// </summary>
-    internal interface IFormattingValidatorFactory
-    {
-        /// <summary>
-        /// Создает экземпляр валидатора с указанными правилами
-        /// </summary>
-        /// <param name="rules">Коллекция правил проверки</param>
-        IFormattingValidator CreateValidator(IEnumerable<IValidationRule> rules);
-    }
 }
