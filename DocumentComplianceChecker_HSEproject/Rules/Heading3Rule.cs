@@ -1,3 +1,4 @@
+Style&Review
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
