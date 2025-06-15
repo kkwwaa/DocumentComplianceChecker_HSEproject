@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DocumentComplianceChecker_HSEproject.Rules
 {
-    internal class Class1
+    internal class NormalStyleRule
     {
     }
 }

@@ -92,8 +92,8 @@ namespace DocumentComplianceChecker_HSEproject.Specs.Steps
                         runRules.Add(new Heading3Rule());
                         break;
                     case "NormalStyleRule":
-                        paragraphRules.Add(new NormalStyleRule());
-                        runRules.Add(new NormalStyleRule());
+                        paragraphRules.Add(new BasicRules.NormalStyleRule());
+                        runRules.Add(new BasicRules.NormalStyleRule());
                         break;
                 }
             }
