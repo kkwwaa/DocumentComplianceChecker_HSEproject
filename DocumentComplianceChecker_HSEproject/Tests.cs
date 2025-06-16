@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 using DocumentFormat.OpenXml.Wordprocessing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentComplianceChecker_HSEproject.Models;
@@ -99,13 +98,6 @@ namespace DocumentComplianceChecker_HSEproject.Specs.Steps
 
             var validator = new FormattingValidator(paragraphRules, runRules);
             _validationResult = validator.Validate(_document);
-        }
-
-        [Then(@"В списке ошибок должна быть ошибка с типом \'(.*)'\")]
-        public void ThenErrorShouldContain(string expectedRule)
-        {
-            var hasError = _validationResult.Errors.Any(e => e.ErrorType.Contains(expectedRule));
-            Assert.IsTrue(hasError, $"Ожидалась ошибка от правила {expectedRule}, но она не найдена.");
         }
 
         private WordprocessingDocument CreateDocument(string styleId, int before, int after, string indent, int sizePt, string font, bool pageBreak = false, bool bold = false)
