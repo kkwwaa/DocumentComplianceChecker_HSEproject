@@ -73,7 +73,30 @@
 
             <!-- Текстовое поле для ввода пути -->
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                <TextBox x:Name="InputPathTextBox" Width="300" Height="25" Margin="0,0,5,0" Text="D:\source\repos\DocumentComplianceChecker_HSEproject\add_files\input.docx" Tag="101"/>
+                <TextBox x:Name="InputPathTextBox" Width="300" Height="25" Margin="0,0,5,0" Tag="101">
+                    <TextBox.Style>
+                        <Style TargetType="TextBox">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TextBox">
+                                        <Border BorderBrush="#D1D5DB" BorderThickness="1" CornerRadius="5">
+                                            <Grid>
+                                                <ScrollViewer x:Name="PART_ContentHost"/>
+                                                <TextBlock x:Name="PlaceholderText" Text="Введите путь к файлу .docx" Foreground="#A0AEC0" Margin="5,0,0,0" 
+                                           IsHitTestVisible="False" Visibility="Collapsed"/>
+                                            </Grid>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="Text" Value="">
+                                                <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TextBox.Style>
+                </TextBox>
                 <Button x:Name="BrowseButton" Content="Обзор..." Width="80" Height="25" Style="{StaticResource ModernButtonStyle}" Click="BrowseButton_Click" Tag="102"/>
             </StackPanel>
 
