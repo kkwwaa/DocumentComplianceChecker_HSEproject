@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.Error" Collapsed="true">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAAAAAAAAAAAAAAAACAAAACEAAIAABAAA=</HashCode>
+      <FileName>Models\Error.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Models.ValidationResult" Collapsed="true">
+    <Position X="2.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\ValidationResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BasicRules" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAABAAAA=</HashCode>
+      <FileName>Rules\BasicRules.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Rules.Heading1Rule" Collapsed="true">
+    <Position X="7" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rules\Heading1Rule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Rules.Heading2Rule" Collapsed="true">
+    <Position X="7" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rules\Heading2Rule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Rules.Heading3Rule" Collapsed="true">
+    <Position X="7" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rules\Heading3Rule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Rules.NormalStyleRule" Collapsed="true">
+    <Position X="7" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Rules\NormalStyleRule.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Rules.PageMarginRule" Collapsed="true">
+    <Position X="2.25" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAEAAAAAAAAAAAAAAAAIABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rules\PageMarginRule.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.AnnotationGenerator" Collapsed="true">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAKAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\AnnotationGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.Exporter" Collapsed="true">
+    <Position X="4" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAIAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Exporter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.FileManager" Collapsed="true">
+    <Position X="0.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAABCAEAAEAAEAAAAAAAAEAAAAUAAA=</HashCode>
+      <FileName>Services\FileManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Services.FormattingValidator" Collapsed="true">
+    <Position X="2.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAGAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Services\FormattingValidator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DocumentComplianceChecker_HSEproject.Specs.Steps.ValidationSteps" Collapsed="true">
+    <Position X="4" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAGAAEEAAAAAAAAAAAAAAAAAAAAAABAAAAAAgCAA=</HashCode>
+      <FileName>Tests.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

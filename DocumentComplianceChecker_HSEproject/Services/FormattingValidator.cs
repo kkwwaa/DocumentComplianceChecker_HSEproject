@@ -8,66 +8,100 @@ namespace DocumentComplianceChecker_HSEproject.Services
     // Класс, реализующий интерфейс IFormattingValidator, отвечает за проверку форматирования документа
     public class FormattingValidator : IFormattingValidator
     {
-        // Список правил форматирования, которые будут применяться к каждому элементу документа
-        private readonly List<IValidationRule> _rules;
+        // Список правил форматирования, разделённых на два типа
+        private readonly List<IParagraphValidationRule> _paragraphRules;
+        private readonly List<IRunValidationRule> _runRules;
 
-        // Конструктор: принимает список правил и сохраняет для использования валидации
-        public FormattingValidator(List<IValidationRule> rules)
+        // Конструктор: принимает списки правил и сохраняет для использования валидации
+        public FormattingValidator(List<IParagraphValidationRule> paragraphRules, List<IRunValidationRule> runRules)
         {
-            _rules = rules;
+            _paragraphRules = paragraphRules ?? new List<IParagraphValidationRule>();
+            _runRules = runRules ?? new List<IRunValidationRule>();
         }
 
-        // Метод валидации: обходит все абзацы документа и применяет к каждому Run все правила
+        // Метод валидации: обходит все абзацы документа и применяет правила
         public ValidationResult Validate(WordprocessingDocument doc)
         {
-            // Результат проверки, куда будут собираться ошибки
             var result = new ValidationResult();
+            if (doc?.MainDocumentPart?.Document?.Body == null)
+            {
+                Console.WriteLine("Validate: Document body is null or invalid.");
+                return result;
+            }
 
-            // Получаем все абзацы из основного тела документа
             var paragraphs = doc.MainDocumentPart.Document.Body.Elements<Paragraph>().ToList();
+            Console.WriteLine($"Validate: Found {paragraphs.Count} paragraphs.");
 
-            // Проходим по каждому абзацу
             for (int i = 0; i < paragraphs.Count; i++)
             {
                 var paragraph = paragraphs[i];
+                Console.WriteLine($"Validate: Processing paragraph {i}");
 
-                // Извлекаем все Run'ы (фрагменты текста с оформлением) из текущего абзаца
-                var runs = paragraph.Elements<Run>().ToList();
-
-                // Проверяем каждый Run в данном абзаце
-                foreach (var run in runs)
+                foreach (var rule in _paragraphRules)
                 {
-                    // Применяем каждое правило к текущему Run (и параграфу, если необходимо)
-                    foreach (var rule in _rules)
+                    Console.WriteLine($"Validate: Applying paragraph rule {rule.GetType().Name}");
+                    if (!rule.ValidateParagraph(paragraph))
                     {
-                        // Если правило не выполнено
-                        if (!rule.RuleValidator(paragraph, run))
+                        var firstRun = paragraph.Elements<Run>().FirstOrDefault();
+                        if (firstRun != null)
                         {
-                            // Выводим текст Run'а в консоль для отладки
-                            Console.WriteLine(GetRunText(run));
-
-                            // Добавляем информацию об ошибке в результат
+                            var runText = GetRunText(firstRun);
+                            Console.WriteLine($"Validate: First Run text: {runText}");
                             result.Errors.Add(new Error
                             {
-                                ErrorType = rule.GetType().Name,        // Тип правила, вызвавшего ошибку
-                                Message = rule.ErrorMessage,           // Сообщение об ошибке
-                                ParagraphText = GetRunText(run),       // Текст, в котором обнаружена ошибка
-                                ParagraphIndex = i,                    // Индекс абзаца, в котором ошибка
-                                TargetRun = run                        // Ссылка на проблемный Run
+                                ErrorType = rule.GetType().Name,
+                                Message = rule.ErrorMessage,
+                                ParagraphText = runText,
+                                ParagraphIndex = i,
+                                TargetRun = firstRun
+                            });
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Validate: Paragraph {i} has no Runs, skipping annotation.");
+                            result.Errors.Add(new Error
+                            {
+                                ErrorType = rule.GetType().Name,
+                                Message = rule.ErrorMessage,
+                                ParagraphText = "No Runs in paragraph",
+                                ParagraphIndex = i,
+                                TargetRun = null
+                            });
+                        }
+                    }
+                }
+
+                var runs = paragraph.Elements<Run>().ToList();
+                Console.WriteLine($"Validate: Found {runs.Count} Runs in paragraph {i}");
+                foreach (var run in runs)
+                {
+                    foreach (var rule in _runRules)
+                    {
+                        Console.WriteLine($"Validate: Applying Run rule {rule.GetType().Name} to Run");
+                        if (!rule.ValidateRun(paragraph, run))
+                        {
+                            var runText = GetRunText(run);
+                            Console.WriteLine($"Validate: Run text: {runText}");
+                            result.Errors.Add(new Error
+                            {
+                                ErrorType = rule.GetType().Name,
+                                Message = rule.ErrorMessage,
+                                ParagraphText = runText,
+                                ParagraphIndex = i,
+                                TargetRun = run
                             });
                         }
                     }
                 }
             }
-
-            // Возвращаем итог со всеми найденными ошибками
+            Console.WriteLine("Validate: Validation completed.");
             return result;
         }
 
         // Вспомогательный метод: извлекает объединённый текст из всех Text-элементов внутри Run
         private string GetRunText(Run run)
         {
-            return string.Concat(run.Elements<Text>().Select(t => t.Text));
+            return run != null ? string.Concat(run.Elements<Text>().Select(t => t.Text)) : string.Empty;
         }
     }
 }
