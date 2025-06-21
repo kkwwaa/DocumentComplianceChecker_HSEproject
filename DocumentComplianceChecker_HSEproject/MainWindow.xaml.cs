@@ -64,13 +64,6 @@ namespace DocumentComplianceChecker_HSEproject
 
             try
             {
-                useTemplate = TemplateRadio.IsChecked == true;
-                if (useTemplate)
-                {
-                    var template = new Template();
-                    services.AddSingleton(template);
-                }
-
                 var provider = services.BuildServiceProvider();
 
                 var fileManager = provider.GetRequiredService<IFileManager>();
