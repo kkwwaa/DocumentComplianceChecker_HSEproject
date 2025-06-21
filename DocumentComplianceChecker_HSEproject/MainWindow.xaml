@@ -81,7 +81,7 @@
             <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                 <Button x:Name="CheckDocumentButton" Content="Проверить документ" Width="150" Height="30" Style="{StaticResource ModernButtonStyle}" Click="CheckDocument_Click" Tag="103"/>
                 <Button x:Name="OpenDocumentButton" Content="Открыть документ" Width="150" Height="30" Style="{StaticResource ModernButtonStyle}" Click="OpenDocument_Click" IsEnabled="False" ToolTip="Открывает документ с комментариями" Tag="104"/>
-                <Button x:Name="OpenReport" Content="Открыть отчет" Width="150" Height="30" Style="{StaticResource ModernButtonStyle}" Click="OpenReport_Click" IsEnabled="False" ToolTip="Открывает отчет с ошибками" Tag="106"/>
+                <Button x:Name="OpenReportButton" Content="Открыть отчет" Width="150" Height="30" Style="{StaticResource ModernButtonStyle}" Click="OpenReport_Click" IsEnabled="False" ToolTip="Открывает отчет с ошибками" Tag="106"/>
             </StackPanel>
         </StackPanel>
 
