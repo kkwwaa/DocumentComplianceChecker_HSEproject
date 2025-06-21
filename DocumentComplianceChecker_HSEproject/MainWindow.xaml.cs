@@ -18,6 +18,8 @@ namespace DocumentComplianceChecker_HSEproject
         private readonly IServiceProvider provider;
         private bool useTemplate;
         private const string HelpFileName = "CHM_DocumentComplianceChecker.chm"; // Относительный путь
+        string outputPath;
+        string reportPath;
 
         public MainWindow()
         {
@@ -64,13 +66,6 @@ namespace DocumentComplianceChecker_HSEproject
 
             try
             {
-                useTemplate = TemplateRadio.IsChecked == true;
-                if (useTemplate)
-                {
-                    var template = new Template();
-                    services.AddSingleton(template);
-                }
-
                 var provider = services.BuildServiceProvider();
 
                 var fileManager = provider.GetRequiredService<IFileManager>();
@@ -88,8 +83,8 @@ namespace DocumentComplianceChecker_HSEproject
                 string outputDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "OutputFiles");
                 Directory.CreateDirectory(outputDir);
 
-                string outputPath = Path.Combine(outputDir, "output.docx");
-                string reportPath = Path.Combine(outputDir, "report.txt");
+                outputPath = Path.Combine(outputDir, "output.docx");
+                reportPath = Path.Combine(outputDir, "report.txt");
 
                 if (!fileManager.FileExists(inputPath))
                 {
@@ -114,6 +109,8 @@ namespace DocumentComplianceChecker_HSEproject
                 exporter.ExportReport(validationResult, reportPath);
 
                 LogTextBlock.Text = $"Проверка завершена. Результаты сохранены в:\n{outputPath}\n{reportPath}";
+                OpenDocumentButton.IsEnabled = true; // Активируем кнопку
+                OpenReportButton.IsEnabled = true; // Активируем кнопку
             }
             catch (Exception ex)
             {
@@ -146,6 +143,44 @@ namespace DocumentComplianceChecker_HSEproject
             {
                 OpenHelpFile();
                 e.Handled = true;
+            }
+        }
+
+        private void OpenDocument_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (File.Exists(outputPath))
+                {
+                    Process.Start(new ProcessStartInfo(outputPath) { UseShellExecute = true });
+                }
+                else
+                {
+                    LogTextBlock.Text += $"Ошибка: Файл {outputPath} не найден.\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTextBlock.Text += $"Ошибка при открытии документа: {ex.Message}\n";
+            }
+        }
+
+        private void OpenReport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (File.Exists(reportPath))
+                {
+                    Process.Start(new ProcessStartInfo(reportPath) { UseShellExecute = true });
+                }
+                else
+                {
+                    LogTextBlock.Text += $"Ошибка: Файл {reportPath} не найден.\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                LogTextBlock.Text += $"Ошибка при открытии отчета: {ex.Message}\n";
             }
         }
 
